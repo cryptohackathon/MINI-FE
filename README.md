@@ -88,7 +88,7 @@ Since the pairing routines are a subset of the Stanford's pbc library, one can f
 Moreover, existing programs designed for the Stanford's pbc library can be compiled with the minife library if they use pbc's routines also present in minife.
 
 
-### MINI-FE APIs
+### MINI-FE APIsa
 The following function generates a secret-key from an integer (e.g., a numerical pin):
 ```C
 void GenerateSecretKeyFromInt(element_t *secret_key,int pin);
@@ -99,4 +99,11 @@ The following function
 void ComputePublicKey(element_t *public_key,element_t *g, element_t *secret_key);
 ```
 computes a public-key ``public_key`` from the secret-key ``secret_key`` and from a public generator ``g``.
-
+```C
+The following function
+```C
+void EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
+	   element_t * hash, element_t * secret_key, const long int *grade,
+	   element_t * Y, element_t * CT, ChaumPedersenProof Proof[3]);
+```
+computes a ciphertext ``CT`` from the grade ``grade``, the secret-key and the so computed value ``Y`` that depends on all other public-keys of other participants. In addition, it computes a NIZK proof that can be used to verify the ciphertext.
