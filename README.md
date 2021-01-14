@@ -6,7 +6,7 @@ The i-th participant can encode an input Xi with her/his own secret-key and the 
 
 [cifer]: https://github.com/fentec-project/CiFEr
 
-## Applications to Secure Grading 
+### Applications to Secure Grading 
 We show the practicality  of this approach by presenting a demo for an application of MINI-FE to an online Hackaton.
 In an online Hackaton there are N Judges who have to assign a grade to each Hackaton's candidate. 
 Each judge can cast his/her grade, where the grade is an integer from 0 to 2 (our system can be easily extended to allow larger ranges), with 0 being reject, 1 borderline, 2 accept.  
@@ -18,14 +18,14 @@ The MINI-FE schemes we implement are verifiable. That is, the system can detect 
 Our MINI-FE systems are provably secure from the [Decision Linear Assumption][dlin] over bilinear groups.
 
 [dlin]: http://crypto.stanford.edu/~dabo/papers/groupsigs.pdf
-## Compatibility with Stanford's pbc library
+### Compatibility with Stanford's pbc library
 In achieving our new functionality and demo we also implement an abstraction of pairing-based cryptography (PBC). Our abstraction allows to construct PBC systems in a way that makes them compatible both with the CiFEr library and the Stanford [pbc] library.
 
 [pbc]: https://crypto.stanford.edu/pbc/
 
 In particular the programmer can implement PBC systems using the same set of APIS from the Stanford's pbc library and simply setting a flag the code can be linked either to the Stanford's pbc or to the CiFEr library. So all applications of Stanford's pbc become compatible with CiFEr as well.
 
-# Installation
+## Installation
 ```bash
 chmod u+x install.sh
 ./install.sh
@@ -38,10 +38,10 @@ It will create the files:
 * `demo_pbc` Same as before but linked to the Stanford's pbc library.
 * `testpairings_cifer` A program to perform some tests with pairing functions inked to the CiFEr library. The output of the program should be equal to the content of file output_test in the main directory.
 * `testpairings_pbc` Same as before but linked to the Stanford's pbc library.
-# APIs
+## APIs
 The APIs can be divided in routines for pairing computations and routines to implement MINI-FE systems.
 The pairing APIs are a subset of the Stanford's pbc and are better described by the following example program `test.c`.
-## Pairing APIs
+### Pairing APIs
 ```bash
 #include <stdio.h>
 #include "pairings.h"
@@ -88,4 +88,4 @@ Since the pairing routines are a subset of the Stanford's pbc library, one can f
 Moreover, existing programs designed for the Stanford's pbc library can be compiled with the minife library if they use pbc's routines also present in minife.
 
 
-## MINI-FE APIs
+### MINI-FE APIs
