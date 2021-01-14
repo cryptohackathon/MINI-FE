@@ -19,11 +19,11 @@ Our MINI-FE systems are provably secure from the [Decision Linear Assumption][dl
 
 [dlin]: http://crypto.stanford.edu/~dabo/papers/groupsigs.pdf
 ## Compatibility with Stanford's pbc library
-In achieving our new functionality and demo we also implement an abstraction of pairing-based cryptography (PBC). Our abstraction allows to construct PBC systems in a way that makes them compatible both with the CiFEr+amcl libraries and the Stanford [pbc] library.
+In achieving our new functionality and demo we also implement an abstraction of pairing-based cryptography (PBC). Our abstraction allows to construct PBC systems in a way that makes them compatible both with the CiFEr library and the Stanford [pbc] library.
 
 [pbc]: https://crypto.stanford.edu/pbc/
 
-In particular the programmer can implement PBC systems using the same set of APIS from the Stanford's pbc library and simply setting a flag the code can be linked either to the Stanford's pbc or to the CiFErr+amcl libraries. So all applications of Stanford's pbc become compatible with CiFEr+amcl as well.
+In particular the programmer can implement PBC systems using the same set of APIS from the Stanford's pbc library and simply setting a flag the code can be linked either to the Stanford's pbc or to the CiFEr library. So all applications of Stanford's pbc become compatible with CiFEr as well.
 
 # Installation
 ```bash
@@ -34,8 +34,8 @@ It will ask you whether you want to additionally install the version of our libr
 
 It will create the files:
 * `minife.so` containing the MINI-FE library. 
-* `demo_cifer` A demo of a secure grading system linked to the CiFEr+acml libraries.
+* `demo_cifer` A demo of a secure grading system linked to the CiFEr library.
 * `demo_pbc` Same as before but linked to the Stanford's pbc library.
-* `testpairings_cifer` A program to perform some tests with pairing functions inked to the CiFEr+acml libraries. The output of the program should be equal to the content of file output_test in the main directory.
+* `testpairings_cifer` A program to perform some tests with pairing functions inked to the CiFEr library. The output of the program should be equal to the content of file output_test in the main directory.
 * `testpairings_pbc` Same as before but linked to the Stanford's pbc library.
 
