@@ -89,3 +89,8 @@ Moreover, existing programs designed for the Stanford's pbc library can be compi
 
 
 ### MINI-FE APIs
+The following function generates a secret-key from an integer (e.g., a numerical pin):
+```C
+void GenerateSecretKeyFromInt(element_t *secret_key,int pin);
+```
+
