@@ -40,7 +40,7 @@ It will create the files:
 * `testpairings_pbc` Same as before but linked to the Stanford's pbc library.
 # Library's APIs
 The library's APIs can be divided in routines for pairing computations and routines to implement MINI-FE systems.
-The pairing APIs are a subset of the Stanford's pbc and are better described by the following example program test.c.
+The pairing APIs are a subset of the Stanford's pbc and are better described by the following example program `test.c`.
 ```bash
 #include <stdio.h>
 #include "pairings.h"
