@@ -38,4 +38,44 @@ It will create the files:
 * `demo_pbc` Same as before but linked to the Stanford's pbc library.
 * `testpairings_cifer` A program to perform some tests with pairing functions inked to the CiFEr library. The output of the program should be equal to the content of file output_test in the main directory.
 * `testpairings_pbc` Same as before but linked to the Stanford's pbc library.
+# Library's APIs
+The library's APIs can be divided in routines for pairing computations and routines to implement MINI-FE systems.
+The pairing APIs are a subset of the Stanford's pbc and are better described by the following example program test.c.
+```bash
+#include <stdio.h>
+#include "pairings.h"
+int main(void){
+element_t a,b,a2,b2,y,T,T4,_T4; // all elements are of type element_t
+pairing_t p; // declare a pairing instance
+pairing_init_set_str(p,Param); // Param is a static global constant
+element_init_G1(a,p); // a is an element of G1 - the element is associated to the pairing instance p
+element_init_G1(a2,p); 
+element_init_G2(b,p); // b is an element of G2
+element_init_G2(b2,p);
+element_random(a); // choose a random a in the group where a has been initialized
+element_random(b); // same for b
+element_mul(a2,a,a); // a2=a^2
+element_mul(b2,b,b); // b2=b^2
+element_init_GT(T,p); // T belongs to the target group
+element_init_GT(T4,p);
+element_init_GT(_T4,p);
+element_pairing(T,a,b); //T=e(a,b)
+element_pairing(T4,a2,b2); //T4=e(a2,b2)=e(a^2,b^2)=e(a,b)^4=T^4
+element_init_Zr(y,p); // y belongs to Zr with r order of the groups
+element_set1(y); // y=1
+element_add(y,y,y); // y=y+y=2
+element_add(y,y,y);// y=y+y+=4
+element_pow_zn(_T4,T,y); // _T4=T^4
+printf("%d\n",element_cmp(T4,_T4)); // test if T4 == _T4 - should output 0
+return 0;
+}
+```
+Assuming libminife.so has been installed (e.g. in /usr/local/lib), the program can be compiled as:
 
+```bash
+gcc -o test test.c -lgmp -lcifer -lminife -I ./include/
+```
+It can be also compiled with the Stanford's PBC library (assuming the pbc's header are in /usr/include/pbc) as follows: 
+```bash
+gcc -o test test.c src/pairings.c -lgmp -lpbc -I ./include/ -I /usr/include/pbc -DPBC_OR_CIFER=0
+```
