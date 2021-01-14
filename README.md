@@ -93,4 +93,10 @@ The following function generates a secret-key from an integer (e.g., a numerical
 ```C
 void GenerateSecretKeyFromInt(element_t *secret_key,int pin);
 ```
+It is assumed that the secret_key ``secret_key`` has been already initialized with the appropriate pairing routine (see the demo).
+The following function
+```C
+void ComputePublicKey(element_t *public_key,element_t *g, element_t *secret_key);
+```
+computes a public-key ``public_key`` from the secret-key ``secret_key`` and from a public generator ``g``.
 
