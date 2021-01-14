@@ -42,7 +42,7 @@ It will create the files:
 The APIs can be divided in routines for pairing computations and routines to implement MINI-FE systems.
 The pairing APIs are a subset of the Stanford's pbc and are better described by the following example program `test.c`.
 ### Pairing APIs
-```bash
+```C
 #include <stdio.h>
 #include "pairings.h"
 int main(void){
@@ -53,7 +53,7 @@ element_init_G1(a,p); // a is an element of G1 - all the following elements are 
 element_init_G1(a2,p); 
 element_init_G2(b,p); // b is an element of G2
 element_init_G2(b2,p);
-element_random(a); # choose a random a in the group where a has been initialized 
+element_random(a); // choose a random a in the group where a has been initialized 
 element_random(b); // same for b
 element_mul(a2,a,a); // a2=a^2
 element_mul(b2,b,b); // b2=b^2
