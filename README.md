@@ -2,7 +2,7 @@
 ## Overview
 The goal is to extend the [CiFEr][cifer] library with new functionalities that implement a sort of multi-input FE without trusted parties. The setting is the following. 
 There are N participants, and each of them generates a pair of public and secret-keys. Each participant knows the public-keys of all other participants. 
-The i-th participant can encode an input x_i with her/his own secret-key and the public-keys of the others to generate a ciphertext CT_i. There is a public Eval function that takes all ciphertexts and compute f(x_1,...,x_n) where f is a given function (we explain below the functions we achieve).
+The i-th participant can encode an input Xi with her/his own secret-key and the public-keys of the others to generate a ciphertext CTi. There is a public Eval function that takes all ciphertexts and compute f(x1,...,xn) where f is a given function (we explain below the functions we achieve).
 [cifer]: https://github.com/fentec-project/CiFEr
 ## Applications to Secure Grading 
 We show the practicality  of this approach by presenting a demo for an application of MINI-FE to an online Hackaton.
