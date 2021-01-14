@@ -25,4 +25,15 @@ In achieving our new functionality and demo we also implement an abstraction of 
 
 In particular the programmer can implement PBC systems using the same set of APIS from the Stanford's pbc library and simply setting a flag the code can be linked either to the Stanford's pbc or to the CiFErr+amcl libraries. So all applications of Stanford's pbc become compatible with CiFEr+amcl as well.
 
+# Installation
+```bash
+chmod u+x install.sh
+./install.sh
+```
+It will ask you whether you want to additionally install the version of our library and demo for the Stanford's pbc library. This is not required. If you choose to do that it will ask you for the path to the pbc's header files in your system. 
+
+It will create files:
+* `minife.so` containing the MINI-FE library. 
+* `demo_cifer` A demo of a secure grading system linked to the CiFEr+acml libraries.
+* `demo_pbc` A demo of a secure grading system linked to the Stanford pbc library.
 
