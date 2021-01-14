@@ -47,9 +47,9 @@ The pairing APIs are a subset of the Stanford's pbc and are better described by 
 #include "pairings.h"
 int main(void){
 element_t a,b,a2,b2,y,T,T4,_T4; // all elements are of type element_t
-pairing_t p; // declare a pairing instance
+pairing_t p; // pairing instance
 pairing_init_set_str(p,Param); // Param is a static global constant
-element_init_G1(a,p); // a is an element of G1 - the element is associated to the pairing instance p
+element_init_G1(a,p); // a is an element of G1 - all the following elements are associated to the pairing instance p
 element_init_G1(a2,p); 
 element_init_G2(b,p); // b is an element of G2
 element_init_G2(b2,p);
@@ -71,7 +71,7 @@ printf("%d\n",element_cmp(T4,_T4)); // test if T4 == _T4 - should output 0
 return 0;
 }
 ```
-Assuming `libminife.so` has been installed (e.g. in `/usr/local/lib`), the program can be compiled as:
+Assuming `libminife.so` has been installed in one of the system paths (e.g. in `/usr/local/lib`), the program can be compiled as:
 
 ```bash
 gcc -o test test.c -lgmp -lcifer -lminife -I ./include/
