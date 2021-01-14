@@ -75,7 +75,7 @@ Assuming `libminife.so` has been installed (e.g. in `/usr/local/lib`), the progr
 ```bash
 gcc -o test test.c -lgmp -lcifer -lminife -I ./include/
 ```
-It can be also compiled with the Stanford's PBC library (assuming the pbc's header are in /usr/include/pbc) as follows: 
+It can be also compiled with the Stanford's PBC library (assuming the pbc's header are in `/usr/include/pbc`) as follows: 
 ```bash
 gcc -o test test.c src/pairings.c -lgmp -lpbc -I ./include/ -I /usr/include/pbc -DPBC_OR_CIFER=0
 ```
