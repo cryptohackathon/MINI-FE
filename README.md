@@ -13,7 +13,7 @@ The demo also allows to perform Decisions by Unanimity and "Dead or Alive" Decis
 ### Verifiability
 The MINI-FE schemes we implement are verifiable. That is, the system can detect if a Judge casts an invalid grade/decision. To achieve this, we also implement NIZK range proofs.
 ## Compatibility with Stanford's pbc library
-In achieving our new functionality and demo we also implement an abstraction of pairing-based cryptography (PBC). Our abstraction allows to construct PBC systems in a way that makes them compatible both with the CiFer+amcl libraries and the Stanford pbc library.
+In achieving our new functionality and demo we also implement an abstraction of pairing-based cryptography (PBC). Our abstraction allows to construct PBC systems in a way that makes them compatible both with the CiFer+amcl libraries and the Stanford [pbc] library.
 
 [pbc]: https://crypto.stanford.edu/pbc/
 
