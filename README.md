@@ -99,7 +99,6 @@ The following function
 void ComputePublicKey(element_t *public_key,element_t *g, element_t *secret_key);
 ```
 computes a public-key ``public_key`` from the secret-key ``secret_key`` and from a public generator ``g``.
-```C
 The following function
 ```C
 void EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
