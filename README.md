@@ -12,6 +12,10 @@ From each Judge's ciphertext the average grade for the candidate can be computed
 The demo also allows to perform Decisions by Unanimity and "Dead or Alive" Decisions. In the first case the candidate's project gets accepted if all Judges cast YES and in the latter case the project gets accepted if at least one Judges cast YES.
 ### Verifiability
 The MINI-FE schemes we implement are verifiable. That is, the system can detect if a Judge casts an invalid grade/decision. To achieve this, we also implement NIZK range proofs.
+### Security
+Our MINI-FE systems are provably secure from the [Decision Linear Assumption][dlin] over bilinear groups.
+
+[dlin]: http://crypto.stanford.edu/~dabo/papers/groupsigs.pdf
 ## Compatibility with Stanford's pbc library
 In achieving our new functionality and demo we also implement an abstraction of pairing-based cryptography (PBC). Our abstraction allows to construct PBC systems in a way that makes them compatible both with the CiFEr+amcl libraries and the Stanford [pbc] library.
 
