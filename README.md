@@ -32,8 +32,10 @@ chmod u+x install.sh
 ```
 It will ask you whether you want to additionally install the version of our library and demo for the Stanford's pbc library. This is not required. If you choose to do that it will ask you for the path to the pbc's header files in your system. 
 
-It will create files:
+It will create the files:
 * `minife.so` containing the MINI-FE library. 
 * `demo_cifer` A demo of a secure grading system linked to the CiFEr+acml libraries.
-* `demo_pbc` A demo of a secure grading system linked to the Stanford pbc library.
+* `demo_pbc` Same as before but linked to the Stanford's pbc library.
+* `testpairings_cifer` A program to perform some tests with pairing functions inked to the CiFEr+acml libraries. The output of the program should be equal to the content of file output_test in the main directory.
+* `testpairings_pbc` Same as before but linked to the Stanford's pbc library.
 
