@@ -38,9 +38,10 @@ It will create the files:
 * `demo_pbc` Same as before but linked to the Stanford's pbc library.
 * `testpairings_cifer` A program to perform some tests with pairing functions inked to the CiFEr library. The output of the program should be equal to the content of file output_test in the main directory.
 * `testpairings_pbc` Same as before but linked to the Stanford's pbc library.
-# Library's APIs
-The library's APIs can be divided in routines for pairing computations and routines to implement MINI-FE systems.
+# APIs
+The APIs can be divided in routines for pairing computations and routines to implement MINI-FE systems.
 The pairing APIs are a subset of the Stanford's pbc and are better described by the following example program `test.c`.
+## Pairing APIs
 ```bash
 #include <stdio.h>
 #include "pairings.h"
@@ -79,3 +80,12 @@ It can be also compiled with the Stanford's PBC library (assuming the pbc's head
 ```bash
 gcc -o test test.c src/pairings.c -lgmp -lpbc -I ./include/ -I /usr/include/pbc -DPBC_OR_CIFER=0
 ```
+
+Since the pairing routines are a subset of the Stanford's pbc library, one can find the documentation of each routine in `include/pairings.h` in the pbc [manual][pbcmanual]
+
+[pbcmanual]: https://crypto.stanford.edu/pbc/manual/
+
+Moreover, existing programs designed for the Stanford's pbc library can be compiled with the minife library if they use pbc's routines also present in minife.
+
+
+## MINI-FE APIs
