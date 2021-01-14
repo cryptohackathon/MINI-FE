@@ -70,7 +70,7 @@ printf("%d\n",element_cmp(T4,_T4)); // test if T4 == _T4 - should output 0
 return 0;
 }
 ```
-Assuming libminife.so has been installed (e.g. in /usr/local/lib), the program can be compiled as:
+Assuming `libminife.so` has been installed (e.g. in `/usr/local/lib`), the program can be compiled as:
 
 ```bash
 gcc -o test test.c -lgmp -lcifer -lminife -I ./include/
