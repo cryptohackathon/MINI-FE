@@ -209,8 +209,8 @@ ComputePublicKey(&public_key[i-1],&g,&secret_key[i-1]);
 	      {
 		InputSecretKey (i, &secret_key[i - 1]);
 		printf
-		  ("Judge #%d, give a grade to my talk [0 for reject, 1 for borderline, 2 for accept]: %s",
-		   i, KBLACK);
+		  ("Judge #%d, give a grade to the candidate #%d [0 for reject, 1 for borderline, 2 for accept]: %s",
+		   i, election, KBLACK);
 		scanf ("%ld", &vote[i - 1]);
 		printf ("%s", KWHT);
 		clearscreen ();
