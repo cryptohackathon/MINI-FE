@@ -282,7 +282,7 @@ main (int argc, char **argv)
 	    EvalTallyUnanimity (N, &pairing, &g, &hash, &CT[0], &r);
 	    if (r == 1)
 	      printf
-		("%sResult of Decision by Unanimity for candidate  #%d = %s%sUnanimity approves%s%s\n\n\n",
+		("%sResult of Decision by Unanimity for candidate  #%d = %s%sVictory by Unanimity%s%s\n\n\n",
 		 KYEL, election, BLINK, KGRN, KWHT, NOBLINK);
 	    else
 	      printf
