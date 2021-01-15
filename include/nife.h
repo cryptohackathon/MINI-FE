@@ -37,6 +37,7 @@ void
 EvalTallyUnanimity (const int N, pairing_t * pairing, element_t * g,
 		    element_t * hash, element_t CT[], int *res);
 
+void GenerateSecretKey(element_t *secret_key);
 void GenerateSecretKeyFromInt(element_t *secret_key,int pin);
 void ComputeY(element_t *Y,int N,int i,element_t public_key[],pairing_t *p);
 void ComputePublicKey(element_t *public_key,element_t *g, element_t *secret_key);

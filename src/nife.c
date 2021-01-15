@@ -198,6 +198,7 @@ EvalTallyUnanimity (const int N, pairing_t * pairing, element_t * g,
     *res = 0;
 
 }
+
 void GenerateSecretKey(element_t *secret_key){
 
  element_random (*secret_key);

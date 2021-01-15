@@ -95,11 +95,12 @@ Moreover, existing programs designed for the Stanford's pbc library can be compi
 
 
 ### MINI-FE APIs
-The following function generates a secret-key from an integer (e.g., a numerical pin):
+The following two functions generate resp. a random secret-key and a secret-key from an integer (e.g., a numerical pin):
 ```C
+void GenerateSecretKey(element_t *secret_key);
 void GenerateSecretKeyFromInt(element_t *secret_key,int pin);
 ```
-It is assumed that the secret_key ``secret_key`` has been already initialized with the appropriate pairing routine (see the demo).
+It is assumed that the secret_key ``secret_key`` has been already initialized via the appropriate pairing routine (see the demo).
 
 The following function
 ```C
