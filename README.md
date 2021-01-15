@@ -7,7 +7,7 @@ The i-th participant can encode an input Xi with her/his own secret-key and the 
 [cifer]: https://github.com/fentec-project/CiFEr
 
 ### Applications to Secure Grading 
-We show the practicality  of this approach by presenting a demo for an application of MINI-FE to an online Hackaton.
+We show the practicality of our systems by presenting a demo for an application of MINI-FE to an online Hackaton.
 In an online Hackaton there are N Judges who have to assign a grade to each Hackaton's candidate. 
 Each judge can cast his/her grade, where the grade is an integer from 0 to 2 (our system can be easily extended to allow larger ranges), with 0 being reject, 1 borderline, 2 accept.  
 From each Judge's ciphertext the average grade for the candidate can be computed. Each ciphertext individually does not reveal the grade of the judge so the judge's privacy is preserved.
