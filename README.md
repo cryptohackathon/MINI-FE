@@ -23,7 +23,7 @@ The MINI-FE schemes we implement are verifiable. That is, the system can detect 
 ### Security
 Our MINI-FE systems are provably secure from the [Bilinear Decision Diffie-Hellman Assumption][bddh] over bilinear groups.
 
-[bddh]: https://crypto.stanford.edu/~dabo/papers/bfibe.pdf
+[bddh]: http://cyber.biu.ac.il/wp-content/uploads/2017/01/Boneh-basics-of-pairings-4.pdf
 
 ### Compatibility with Stanford's pbc library
 In achieving our new functionality and demo we also implement an abstraction of pairing-based cryptography (PBC). Our abstraction allows to construct PBC systems in a way that makes them compatible both with the CiFEr library and the Stanford [pbc] library.
