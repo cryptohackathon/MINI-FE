@@ -40,8 +40,6 @@ InputSecretKey (int voter, element_t * secret_key)
 {
   int pin;
 
-//  mpz_t z;
-  // mpz_init (z);
   while (1)
     {
       int n, c;
@@ -62,11 +60,8 @@ InputSecretKey (int voter, element_t * secret_key)
       else
 	break;
     }
-  //mpz_set_si (z, pin);
-  //element_set_mpz (*secret_key, z);
   GenerateSecretKeyFromInt (secret_key, pin);
   clearscreen ();
-  //mpz_clear (z);
 }
 
 int
@@ -118,7 +113,6 @@ main (int argc, char **argv)
     float average;
     char str[10];
     int r;
-    //char type;
     element_t public_key[N], hash, Y[N];
     element_t secret_key[N];
     element_t CT[N];
@@ -146,7 +140,6 @@ main (int argc, char **argv)
 	   element_printf("private key %d = %B\n\n", i, secret_key[i-1]);
 	 */
 	/* compute corresponding public key */
-//      element_pow_zn (public_key[i - 1], g, secret_key[i - 1]);
 	ComputePublicKey (&public_key[i - 1], &g, &secret_key[i - 1]);
 
       }
