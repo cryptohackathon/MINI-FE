@@ -17,7 +17,7 @@ Each judge encodes his/her grade for the candidate in a MINI-FE ciphertext, wher
 
 From each Judge's ciphertext the average grade for the candidate can be computed. Each ciphertext individually does not reveal the grade the Judge assigned to the candidate so the Judge's privacy is preserved.
 
-The demo also allows to perform Decisions by Unanimity and "Dead or Alive" Decisions. In the first case the candidate's project gets accepted if all Judges cast YES and in the latter case the project gets accepted if at least one Judges cast YES.
+The demo also allows to perform Decisions by Unanimity and "Dead or Alive" (or Accept/Reject) Decisions. In the first case the candidate's project gets accepted if all Judges cast YES and in the latter case the project gets accepted if at least one Judges cast YES.
 ### Verifiability
 The MINI-FE schemes we implement are verifiable. That is, the system can detect if a Judge casts an invalid grade/decision. To achieve this, we also implement NIZK range proofs.
 ### Security
