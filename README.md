@@ -137,7 +137,7 @@ The header file ``nife.h`` exposes all other similar routines for the functional
 ## Demo
 The demos (``demo_cifer`` or ``demo_pbc`` in the case you also installed the Stanford pbc's version) simulates in the local computer an evaluation cerimony for the projects of the Crypto Hackaton.
 * The demo starts by asking you how many Judges are in the system.
-* For each candidate of the Hackaton, the demo starts an evaluation:
+* For each candidate of the Hackaton, the demo starts an evaluation.
 ** For each Judge, it asks a secret pin from which the secret-key is computed.
 ** It asks which kind of cerimony you want to do - average grading, dead or alive, or unanimity.
 ** For each Judge it asks the secret pin and a grade/decision to assig to the candidate - a number from 0 to 2 for average grade cerimonies, and a bit for the other types.
