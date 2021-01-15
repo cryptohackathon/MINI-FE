@@ -13,9 +13,9 @@ The goal is to extend the [CiFEr][cifer] library with new functionalities that i
 ### Applications to Private Grading 
 We show the practicality of our systems by presenting a demo application to online Hackatons.
 In an online Hackaton there are N Judges who have to assign a grade to each Hackaton's candidate. 
-Each judge encodes his/her grade for the candidate in a MINI-FE ciphertext, where the grade is an integer from 0 to 2 (our system can be easily extended to allow larger ranges), with 0 being reject, 1 borderline, 2 accept.
+Each judge encodes his/her grade for each candidate in a MINI-FE ciphertext, where the grade is an integer from 0 to 2 (our system can be easily extended to allow larger ranges), with 0 being reject, 1 borderline, 2 accept.
 
-From each Judge's ciphertext the average grade for the candidate can be computed. Each ciphertext individually does not reveal the grade the Judge assigned to the candidate so the Judge's privacy is preserved.
+From all ciphertexts the average grade for each candidate can be computed. Each ciphertext individually does not reveal the grade the Judge assigned to a candidate so the Judge's privacy is preserved.
 
 The demo also allows to perform Decisions by Unanimity and "Dead or Alive" (or Accept/Reject) Decisions. In the first case the candidate's project gets accepted if all Judges cast YES and in the latter case the project gets accepted if at least one Judges cast YES.
 ### Verifiability
