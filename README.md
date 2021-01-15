@@ -135,10 +135,10 @@ takes as input the number of participants, the pairing instance, the generator `
 
 The header file ``nife.h`` exposes all other similar routines for the functionalities 'Dead or Alive' and 'Unanimity'. In these case, there is no need for NIZK proofs and verifications since, by design of the systems, there are no invalid ciphertexts (except for ciphertexts not representing valid group elements).
 ## Demo
-The demos (``demo_cifer`` or ``demo_pbc`` in the case you also installed the Stanford pbc's version) simulates in the local computer an evaluation cerimony for the projects of the Crypto Hackaton.
+The demo ``demo_cifer`` (and also ``demo_pbc`` in the case you installed the Stanford pbc's version as well) simulates in the local computer an evaluation cerimony for the projects of the Crypto Hackaton.
 * The demo starts by asking you how many Judges are in the system.
 * For each candidate of the Hackaton, the demo starts an evaluation.
-** For each Judge, it asks a secret pin from which the secret-key is computed.
-** It asks which kind of cerimony you want to do - average grading, dead or alive, or unanimity.
-** For each Judge it asks the secret pin and a grade/decision to assig to the candidate - a number from 0 to 2 for average grade cerimonies, and a bit for the other types.
-** The evaluation of the candidate is computed.
+	* For each Judge, it asks a secret pin from which the secret-key is computed.
+	* It asks which kind of cerimony you want to do - average grading, dead or alive, or unanimity.
+	* For each Judge it asks the secret pin and a grade/decision to assig to the candidate - a number from 0 to 2 for average grade cerimonies, and a bit for the other types.
+	* The evaluation of the candidate is computed.
