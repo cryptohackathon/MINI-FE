@@ -59,10 +59,8 @@ main (void)
   element_init_GT (gT, p);
   element_init_GT (gT2, p);
   element_init_GT (gT3, p);
-//element_set1(c2);
   element_pairing (gT, c2, C2);	// gT=gT^2
-//element_set1(e2);
-  element_pairing (gT2, e2, A2);	//
+  element_pairing (gT2, e2, A2);	
   element_dlog_brute_force (x, gT, gT2);
   element_to_mpz (D, x);
   printf ("brute force of gT2=%lu\n", mpz_get_ui (D));
@@ -108,22 +106,10 @@ main (void)
   printf ("%d\n", element_is1 (d3));
   printf ("%d\n", element_is1 (b3));
 
-#if PBC_OR_CIFER == 1
-//mpz_from_BIG_256_56(b3[0].z, (int64_t *) CURVE_Order_BN254);
-//mpz_add_ui(b3[0].z,b3[0].z,1);
-//mpz_mod(b3[0].z,b3[0].z,b3[0].p);
   element_set0 (b3);
-#else
-  element_set0 (b3);
-#endif
   element_init_GT (GT3, p);
   element_init_GT (GT4, p);
-// FP12_BN254_output(&(GT3[0].gT));
-// FP12_BN254_output(&(GT4[0].gT));
   element_pow_zn (GT4, GT3, b3);
-//BIG_256_56_from_mpz(s,b3[0].z);
-//FP12_BN254_pow(&(GT4[0].gT),&(GT3[0].gT),s);
-// FP12_BN254_output(&(GT4[0].gT));
 //printf("%lu\n",mpz_get_ui(b3[0].z));
   printf ("%d\n", element_is1 (GT4));
 
