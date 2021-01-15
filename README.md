@@ -153,8 +153,8 @@ can be executed just with the command:
 ./demo_cifer
 ```
  The demo is supposed to simulate locally an evaluation ceremony for the candidates/projects of the Crypto Hackaton.
-* The demo starts by asking you how many Judges are in the system.
-* For each candidate of the Hackaton, the demo starts an evaluation.
+* The demo starts by asking you how many Judges there are.
+* For each candidate of the Hackaton, the demo starts his/her evaluation.
 	* For each Judge, it asks a secret pin from which the secret-key is computed.
 	* It asks which kind of ceremony you want to do - average grading, dead or alive, or unanimity.
 	* For each Judge it asks the secret pin and a grade/decision to assign to the candidate - a number from 0 to 2 for average grade ceremonies, and a bit for the other types.
