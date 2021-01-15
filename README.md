@@ -6,7 +6,7 @@ The goal is to extend the [CiFEr][cifer] library with new functionalities that i
 
 * The i-th participant can encode an input Xi with her/his own secret-key and the public-keys of the others to generate a ciphertext CTi. 
 
-* There is a public Eval function that takes all ciphertexts and compute f(x1,...,xn) where f is a given function (we explain below the functions we achieve).
+* There is a public Eval function that takes all ciphertexts and compute f(x1,...,xN) where f is a given function (we explain below the functions we achieve).
 
 [cifer]: https://github.com/fentec-project/CiFEr
 
