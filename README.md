@@ -1,6 +1,7 @@
 # Multi-Inputs Non-Interactive Functional Encryption (MINI-FE) without Trusted Authorities and Applications to Secure Grading
 ## Overview
 The goal is to extend the [CiFEr][cifer] library with new functionalities that implement a sort of multi-input FE without trusted parties. The setting is the following. 
+
 There are N participants, and each of them generates a pair of public and secret-keys. Each participant knows the public-keys of all other participants. 
 The i-th participant can encode an input Xi with her/his own secret-key and the public-keys of the others to generate a ciphertext CTi. There is a public Eval function that takes all ciphertexts and compute f(x1,...,xn) where f is a given function (we explain below the functions we achieve).
 
@@ -120,8 +121,12 @@ void EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
 	   element_t * hash, element_t * secret_key, const long int *grade,
 	   element_t * Y, element_t * CT, ChaumPedersenProof Proof[3]);
 ```
-computes a ciphertext ``CT`` from the grade ``grade``, the secret-key and the so computed value ``Y`` that depends on all other public-keys of other participants. In addition, it computes a NIZK proof that can be used to verify the ciphertext.
+computes a ciphertext ``CT`` from the grade ``grade``, the secret-key and the so computed value ``Y`` that depends on all other public-keys of other participants. 
+
+In addition, it computes a NIZK proof that can be used to verify the ciphertext.
+
 The value ``pairing`` is the pairing instance with which all group elements are generated. 
+
 The element ``hash`` is a value that is supposed to depend on the grade cerimony. For security to hold it has to be different in each cerimony and can be chosen as the hash of a fixed string (e.g., the identifier of the cerimony) - see the code's demo for major details.
 
 The function
