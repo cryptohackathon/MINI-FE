@@ -148,7 +148,7 @@ CDS3Prover (pairing_t * pairing, element_t * g, element_t * h, element_t * u,
   element_init_Zr (hash, *pairing);
   element_snprintf (str, 2048, "%B%B%B%B", *g, *h, *u, *v);
   element_from_hash (hash, str, 2048);
-  for (i = 0; i < 3; i++) // 3 depends on the fact that in this demo the user can choose one out of 3 values for his selection 
+  for (i = 0; i < 3; i++)	// 3 depends on the fact that in this demo the user can choose one out of 3 values for his selection 
     {
       mpz_set_si (V, i);
       element_set_mpz (temp3, V);
@@ -183,7 +183,7 @@ CDS3Verifier (pairing_t * pairing, element_t * g, element_t * h,
   element_init_GT (temp4, *pairing);
   element_init_GT (temp2, *pairing);
   element_set0 (temp);
-  element_snprintf (str,2048, "%B%B%B%B", *g, *h, *u, *v);
+  element_snprintf (str, 2048, "%B%B%B%B", *g, *h, *u, *v);
   element_from_hash (hash, str, 2048);
   for (i = 0; i < 3; i++)
     {

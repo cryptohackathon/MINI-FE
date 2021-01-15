@@ -14,30 +14,29 @@
 #define KWHT  "\x1B[37m"
 
 void EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
-	   element_t * hash, element_t * secret_key, const long int *grade,
-	   element_t * Y, element_t * CT, ChaumPedersenProof Proof[3]);
-int
-EvalTallyGrade (const int N, pairing_t * pairing, element_t * g,
-		element_t * hash, element_t pk[], element_t Y[],
-		element_t CT[], element_t * Res,
-		ChaumPedersenProof Proofs[][3]);
-void
-EncodeDeadOrAlive (element_t * g, pairing_pp_t * pp,
-		 pairing_t * pairing, element_t * hash,
-		 element_t * secret_key, const long int *decision, element_t * Y,
-		 element_t * Res);
-void
-EvalTallyDeadOrAlive (const int N, pairing_t * pairing, element_t * g,
-		      element_t * hash, element_t CT[], int *res);
-void
-EncodeUnanimity (element_t * g, pairing_pp_t * pp,
-	       pairing_t * pairing, element_t * hash, element_t * secret_key,
-	       const long int *decision, element_t * Y, element_t * Res);
-void
-EvalTallyUnanimity (const int N, pairing_t * pairing, element_t * g,
-		    element_t * hash, element_t CT[], int *res);
+		  element_t * hash, element_t * secret_key,
+		  const long int *grade, element_t * Y, element_t * CT,
+		  ChaumPedersenProof Proof[3]);
+int EvalTallyGrade (const int N, pairing_t * pairing, element_t * g,
+		    element_t * hash, element_t pk[], element_t Y[],
+		    element_t CT[], element_t * Res,
+		    ChaumPedersenProof Proofs[][3]);
+void EncodeDeadOrAlive (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
+			element_t * hash, element_t * secret_key,
+			const long int *decision, element_t * Y,
+			element_t * Res);
+void EvalTallyDeadOrAlive (const int N, pairing_t * pairing, element_t * g,
+			   element_t * hash, element_t CT[], int *res);
+void EncodeUnanimity (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
+		      element_t * hash, element_t * secret_key,
+		      const long int *decision, element_t * Y,
+		      element_t * Res);
+void EvalTallyUnanimity (const int N, pairing_t * pairing, element_t * g,
+			 element_t * hash, element_t CT[], int *res);
 
-void GenerateSecretKey(element_t *secret_key);
-void GenerateSecretKeyFromInt(element_t *secret_key,int pin);
-void ComputeY(element_t *Y,int N,int i,element_t public_key[],pairing_t *p);
-void ComputePublicKey(element_t *public_key,element_t *g, element_t *secret_key);
+void GenerateSecretKey (element_t * secret_key);
+void GenerateSecretKeyFromInt (element_t * secret_key, int pin);
+void ComputeY (element_t * Y, int N, int i, element_t public_key[],
+	       pairing_t * p);
+void ComputePublicKey (element_t * public_key, element_t * g,
+		       element_t * secret_key);

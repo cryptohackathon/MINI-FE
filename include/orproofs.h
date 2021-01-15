@@ -8,12 +8,12 @@ typedef struct
 
 void
 CDS3Prover (pairing_t * pairing, element_t * g, element_t * h, element_t * u,
-	    element_t * v, element_t * w, int vote, ChaumPedersenProof res[3]);
-int
-CDS3Verifier (pairing_t * pairing, element_t * g, element_t * h,
-	      element_t * u, element_t * v, ChaumPedersenProof res[3]);
+	    element_t * v, element_t * w, int vote,
+	    ChaumPedersenProof res[3]);
+int CDS3Verifier (pairing_t * pairing, element_t * g, element_t * h,
+		  element_t * u, element_t * v, ChaumPedersenProof res[3]);
 //extern void
 //ChaumPedersenSimulator (pairing_t * pairing, element_t * g, element_t * h,
-//			element_t * u, element_t * v,
-//			ChaumPedersenProof * res);
+//                      element_t * u, element_t * v,
+//                      ChaumPedersenProof * res);
 #endif

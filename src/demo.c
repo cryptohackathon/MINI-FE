@@ -30,8 +30,8 @@ void
 clearscreen (void)
 {
   int i;
- return;
- for (i = 0; i <= 100; i++)
+  return;
+  for (i = 0; i <= 100; i++)
     printf ("\n");
 }
 
@@ -41,7 +41,7 @@ InputSecretKey (int voter, element_t * secret_key)
   int pin;
 
 //  mpz_t z;
- // mpz_init (z);
+  // mpz_init (z);
   while (1)
     {
       int n, c;
@@ -64,7 +64,7 @@ InputSecretKey (int voter, element_t * secret_key)
     }
   //mpz_set_si (z, pin);
   //element_set_mpz (*secret_key, z);
-  GenerateSecretKeyFromInt(secret_key,pin);
+  GenerateSecretKeyFromInt (secret_key, pin);
   clearscreen ();
   //mpz_clear (z);
 }
@@ -74,7 +74,7 @@ main (int argc, char **argv)
 {
   int i, election, N;
   pairing_t pairing;
-  element_t g;//, h;
+  element_t g;			//, h;
   element_t temp, temp1, temp2, zero, res;
   pairing_pp_t pp;
   //pbc_demo_pairing_init(pairing, argc, argv);
@@ -91,7 +91,9 @@ main (int argc, char **argv)
   while (1)
     {
       int n, c;
-      printf ("%sWelcome to our NIFE system. You can use this to grade candidates for the Crypto Hackaton%s\n", KCYN, KWHT);
+      printf
+	("%sWelcome to our NIFE system. You can use this to grade candidates for the Crypto Hackaton%s\n",
+	 KCYN, KWHT);
       printf ("To begin input the number of participants: ");
       n = scanf ("%d", &N);
       while (1)
@@ -132,7 +134,7 @@ main (int argc, char **argv)
 	element_init_GT (temp1, pairing);
 	element_init_GT (temp2, pairing);
 	element_init_Zr (secret_key[i - 1], pairing);
-	element_set1(Y[i-1]);
+	element_set1 (Y[i - 1]);
 
 
 	/*
@@ -144,44 +146,47 @@ main (int argc, char **argv)
 	   element_printf("private key %d = %B\n\n", i, secret_key[i-1]);
 	 */
 	/* compute corresponding public key */
-//	element_pow_zn (public_key[i - 1], g, secret_key[i - 1]);
-ComputePublicKey(&public_key[i-1],&g,&secret_key[i-1]);
+//      element_pow_zn (public_key[i - 1], g, secret_key[i - 1]);
+	ComputePublicKey (&public_key[i - 1], &g, &secret_key[i - 1]);
 
       }
 /* print all PKs */
     {
 #if PBC_OR_CIFER == 1
-	    char string[512];
+      char string[512];
 #endif
-    for (i = 1; i <= N; i++){
+      for (i = 1; i <= N; i++)
+	{
 #if PBC_OR_CIFER == 0
-      element_printf ("public key of Judge %d= %B\n\n", i, public_key[i - 1]);
+	  element_printf ("public key of Judge %d= %B\n\n", i,
+			  public_key[i - 1]);
 #else
-    element_snprintf_publickey (string,i, public_key[i - 1]);
-      printf ("public key of Judge %d=",i);
-     ECP2_BN254_output(&public_key[i-1][0].g2);
-     printf("\n");
+	  element_snprintf_publickey (string, i, public_key[i - 1]);
+	  printf ("public key of Judge %d=", i);
+	  ECP2_BN254_output (&public_key[i - 1][0].g2);
+	  printf ("\n");
 #endif
-    }
+	}
     }
 /* end setup */
 /*compute the Y_i's */
-    for (i = 1; i <= N; i++)  ComputeY(&Y[i-1],N,i,public_key,&pairing);
-    /*
     for (i = 1; i <= N; i++)
-      {
-	element_set1 (temp);
+      ComputeY (&Y[i - 1], N, i, public_key, &pairing);
+    /*
+       for (i = 1; i <= N; i++)
+       {
+       element_set1 (temp);
 
-	for (j = 1; j <= N; j++)
-	  {
-	    if (j < i)
-	      element_add (Y[i - 1], Y[i - 1], public_key[j - 1]);
-	    else if (j > i)
-	      element_sub (Y[i - 1], Y[i - 1], public_key[j - 1]);
+       for (j = 1; j <= N; j++)
+       {
+       if (j < i)
+       element_add (Y[i - 1], Y[i - 1], public_key[j - 1]);
+       else if (j > i)
+       element_sub (Y[i - 1], Y[i - 1], public_key[j - 1]);
 
-	  }
-      }
-      */
+       }
+       }
+     */
 /*end of computation of the Y_i's */
     for (election = 1;; election++)
       {
@@ -198,7 +203,7 @@ ComputePublicKey(&public_key[i-1],&g,&secret_key[i-1]);
 	    if (str[1] == '\0')
 	      break;
 	    printf
-	  ("Invaid choice. How do you want to judge the project's candidate? press %s1 for computing an Average Grade,%s 2 for Dead or Alive elections,%s 3 for Victory by unanimity,%s q to quit%s ",
+	      ("Invaid choice. How do you want to judge the project's candidate? press %s1 for computing an Average Grade,%s 2 for Dead or Alive elections,%s 3 for Victory by unanimity,%s q to quit%s ",
 	       KCYN, KMAG, KYEL, KGRN, KWHT);
 	    flush ();
 	  }
@@ -216,26 +221,27 @@ ComputePublicKey(&public_key[i-1],&g,&secret_key[i-1]);
 		clearscreen ();
 //element_printf("uuuu#%B\n",public_key[0]);
 		EncodeGrade (&g, &pp, &pairing, &hash, &secret_key[i - 1],
-			   &vote[i - 1], &Y[i - 1], &CT[i - 1],
-			   Proofs[i - 1]);
+			     &vote[i - 1], &Y[i - 1], &CT[i - 1],
+			     Proofs[i - 1]);
 //element_printf("uuuu#%B\n",public_key[0]);
 	      }
-	    printf ("%sEvaluating the result for candidate #%d...pls wait%s\n",
-		    KBLU, election, KWHT);
+	    printf
+	      ("%sEvaluating the result for candidate #%d...pls wait%s\n",
+	       KBLU, election, KWHT);
 	    if (EvalTallyGrade
 		(N, &pairing, &g, &hash, &public_key[0], Y, CT, &res,
 		 Proofs) == 0)
-	    {
-	  printf
-	    ("%sOne of the Judges cast invalid grade or used wrong secret PIN\nAborting...%s\n",
-	     KRED, KWHT);
-		    break;
-	    }
+	      {
+		printf
+		  ("%sOne of the Judges cast invalid grade or used wrong secret PIN\nAborting...%s\n",
+		   KRED, KWHT);
+		break;
+	      }
 	    element_to_mpz (z, res);
 	    average = mpz_get_si (z);
 	    average /= N;
-	    printf ("%sAverage grade for candidate #%d = %s%f%s%s\n\n\n", KCYN,
-		    election, BLINK, average, NOBLINK,KWHT);
+	    printf ("%sAverage grade for candidate #%d = %s%f%s%s\n\n\n",
+		    KCYN, election, BLINK, average, NOBLINK, KWHT);
 	    break;
 	  case '2':
 	    for (i = 1; i <= N; i++)
@@ -245,21 +251,22 @@ ComputePublicKey(&public_key[i-1],&g,&secret_key[i-1]);
 		scanf ("%ld", &vote[i - 1]);
 		clearscreen ();
 		EncodeDeadOrAlive (&g, &pp, &pairing, &hash,
-				 &secret_key[i - 1], &vote[i - 1], &Y[i - 1],
-				 &CT[i - 1]);
+				   &secret_key[i - 1], &vote[i - 1],
+				   &Y[i - 1], &CT[i - 1]);
 	      }
 
-	    printf ("%sEvaluating the result for candidate #%d...pls wait%s\n",
-		    KBLU, election, KWHT);
+	    printf
+	      ("%sEvaluating the result for candidate #%d...pls wait%s\n",
+	       KBLU, election, KWHT);
 	    EvalTallyDeadOrAlive (N, &pairing, &g, &hash, &CT[0], &r);
 	    if (r == 1)
 	      printf
 		("%sResult of Dead or Alive Decision #%d = %s%sDead%s%s\n\n\n",
-		 KMAG, election, BLINK,KRED, KWHT,NOBLINK);
+		 KMAG, election, BLINK, KRED, KWHT, NOBLINK);
 	    else
 	      printf
 		("%sResult of Dead or Alive Decision #%d = %s%sAlive%s%s\n\n\n",
-		 KMAG, election, BLINK,KGRN, KWHT,NOBLINK);
+		 KMAG, election, BLINK, KGRN, KWHT, NOBLINK);
 
 
 	    break;
@@ -272,21 +279,22 @@ ComputePublicKey(&public_key[i-1],&g,&secret_key[i-1]);
 		scanf ("%ld", &vote[i - 1]);
 		clearscreen ();
 		EncodeUnanimity (&g, &pp, &pairing, &hash,
-			       &secret_key[i - 1], &vote[i - 1], &Y[i - 1],
-			       &CT[i - 1]);
+				 &secret_key[i - 1], &vote[i - 1], &Y[i - 1],
+				 &CT[i - 1]);
 	      }
 
-	    printf ("%sEvaluating the result for candidate #%d...pls wait%s\n",
-		    KBLU, election, KWHT);
+	    printf
+	      ("%sEvaluating the result for candidate #%d...pls wait%s\n",
+	       KBLU, election, KWHT);
 	    EvalTallyUnanimity (N, &pairing, &g, &hash, &CT[0], &r);
 	    if (r == 1)
 	      printf
 		("%sResult of Decision by Unanimity for candidate  #%d = %s%sUnanimity approves%s%s\n\n\n",
-		 KYEL, election, BLINK,KGRN, KWHT,NOBLINK);
+		 KYEL, election, BLINK, KGRN, KWHT, NOBLINK);
 	    else
 	      printf
 		("%sResult of Decision by Unanimity for candidate #%d = %s%sNot approved by unanimity%s%s\n\n\n",
-		 KYEL, election, BLINK,KRED, KWHT,NOBLINK);
+		 KYEL, election, BLINK, KRED, KWHT, NOBLINK);
 	    break;
 	  case 'q':
 	    printf ("%sSee you at the next Crypto Hackaton%s\n", KBLU, KWHT);

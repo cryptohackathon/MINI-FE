@@ -1,8 +1,8 @@
 #include "nife.h"
-	void
+void
 EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
-	   element_t * hash, element_t * secret_key, const long int *grade,
-	   element_t * Y, element_t * Res, ChaumPedersenProof Proof[3])
+	     element_t * hash, element_t * secret_key, const long int *grade,
+	     element_t * Y, element_t * Res, ChaumPedersenProof Proof[3])
 {
   element_t temp1, temp2, temp3, temp4;
   element_t pk, Pk, Base, C1;
@@ -68,28 +68,30 @@ EvalTallyGrade (const int N, pairing_t * pairing, element_t * g,
 	    ("%sJudge #%d cast invalid grade or used wrong secret PIN\n%s\n",
 	     KRED, i, KWHT);
 #endif
-	 return 0;
+	  return 0;
 	}
-      else{
+      else
+	{
 #if DEBUG_PROOFS == 1
-	      printf("%sOK%s\n",KGRN,KWHT);
+	  printf ("%sOK%s\n", KGRN, KWHT);
 #endif
-      }
+	}
       element_mul (temp, temp, CT[i - 1]);
       {
-	      element_t T;
-element_init_GT(T,*pairing);
-  element_pairing (T, *hash,*g);
+	element_t T;
+	element_init_GT (T, *pairing);
+	element_pairing (T, *hash, *g);
       }
-      }
+    }
 
-  element_pairing (temp2, *hash,*g);
+  element_pairing (temp2, *hash, *g);
   if (element_is1 (temp))
-  {element_set0 (*Res);
-#if PBC_OR_CIFER == 1 
-  mpz_set_si((*Res)[0].z,0);
+    {
+      element_set0 (*Res);
+#if PBC_OR_CIFER == 1
+      mpz_set_si ((*Res)[0].z, 0);
 #endif
-  }
+    }
   else
     element_dlog_brute_force (*Res, temp2, temp);
   return 1;
@@ -97,9 +99,9 @@ element_init_GT(T,*pairing);
 
 void
 EncodeDeadOrAlive (element_t * g, pairing_pp_t * pp,
-		 pairing_t * pairing, element_t * hash,
-		 element_t * secret_key, const long int *decision, element_t * Y,
-		 element_t * Res)
+		   pairing_t * pairing, element_t * hash,
+		   element_t * secret_key, const long int *decision,
+		   element_t * Y, element_t * Res)
 {
   element_t temp1, temp2, temp3, temp4;
   mpz_t v;
@@ -137,10 +139,10 @@ EvalTallyDeadOrAlive (const int N, pairing_t * pairing, element_t * g,
   element_set1 (temp);
 
   for (i = 1; i <= N; i++)
-  {
-	  element_mul (temp, temp, CT[i - 1]);
+    {
+      element_mul (temp, temp, CT[i - 1]);
       printf ("%sVerifying CT #%d%s: OK%s\n", KBLU, i, KGRN, KWHT);
-  }
+    }
   if (element_is1 (temp))
     *res = 1;
   else
@@ -150,8 +152,9 @@ EvalTallyDeadOrAlive (const int N, pairing_t * pairing, element_t * g,
 
 void
 EncodeUnanimity (element_t * g, pairing_pp_t * pp,
-	       pairing_t * pairing, element_t * hash, element_t * secret_key,
-	       const long int *decision, element_t * Y, element_t * Res)
+		 pairing_t * pairing, element_t * hash,
+		 element_t * secret_key, const long int *decision,
+		 element_t * Y, element_t * Res)
 {
   element_t temp1, temp2, temp3, temp4;
   mpz_t v;
@@ -188,10 +191,11 @@ EvalTallyUnanimity (const int N, pairing_t * pairing, element_t * g,
   element_init_GT (temp2, *pairing);
   element_set1 (temp);
 
-  for (i = 1; i <= N; i++){
-    element_mul (temp, temp, CT[i - 1]);
+  for (i = 1; i <= N; i++)
+    {
+      element_mul (temp, temp, CT[i - 1]);
       printf ("%sVerifying CT #%d%s: OK%s\n", KBLU, i, KGRN, KWHT);
-  }
+    }
   if (element_is1 (temp))
     *res = 1;
   else
@@ -199,39 +203,49 @@ EvalTallyUnanimity (const int N, pairing_t * pairing, element_t * g,
 
 }
 
-void GenerateSecretKey(element_t *secret_key){
+void
+GenerateSecretKey (element_t * secret_key)
+{
 
- element_random (*secret_key);
+  element_random (*secret_key);
 
 }
 
-void GenerateSecretKeyFromInt(element_t *secret_key,int pin){
+void
+GenerateSecretKeyFromInt (element_t * secret_key, int pin)
+{
 
- mpz_t z;
- mpz_init (z);
-mpz_set_si (z, pin);
- element_set_mpz (*secret_key, z);
+  mpz_t z;
+  mpz_init (z);
+  mpz_set_si (z, pin);
+  element_set_mpz (*secret_key, z);
   mpz_clear (z);
 
 }
-void ComputePublicKey(element_t *public_key,element_t *g, element_t *secret_key){
-element_pow_zn (*public_key, *g, *secret_key);
+
+void
+ComputePublicKey (element_t * public_key, element_t * g,
+		  element_t * secret_key)
+{
+  element_pow_zn (*public_key, *g, *secret_key);
 }
 
 
-  void  ComputeY(element_t *Y,int N,int i,element_t public_key[],pairing_t *p){
-	    int j;
-	    element_t temp;
-	    element_init_G1(temp,*p);
-	element_set1 (temp);
+void
+ComputeY (element_t * Y, int N, int i, element_t public_key[], pairing_t * p)
+{
+  int j;
+  element_t temp;
+  element_init_G1 (temp, *p);
+  element_set1 (temp);
 
-	for (j = 1; j <= N; j++)
-	  {
-	    if (j < i)
-	      element_add (*Y, *Y, public_key[j - 1]);
-	    else if (j > i)
-	      element_sub (*Y, *Y, public_key[j - 1]);
+  for (j = 1; j <= N; j++)
+    {
+      if (j < i)
+	element_add (*Y, *Y, public_key[j - 1]);
+      else if (j > i)
+	element_sub (*Y, *Y, public_key[j - 1]);
 
-	  }
+    }
 
-	}
+}
