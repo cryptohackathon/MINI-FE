@@ -87,7 +87,6 @@ ECP2_BN254_mul(&tmp2,s);
 ECP2_BN254_copy(&(res[0].g2),&tmp2);
 }
 else if (res[0].type==2){
-//FP12_BN254_copy(&tmpT,&(g[0].gT));
 FP12_BN254_pow(&(res[0].gT),&(g[0].gT),s);
 }
 
@@ -96,7 +95,7 @@ FP12_BN254_pow(&(res[0].gT),&(g[0].gT),s);
 void element_set1(element_t e){
 element_t g;
 pairing_t p;
-//TODO: the following should be an overkill. There should be amcl APIs to set the element to zero in a more direct way.
+//TODO: the following should be an overkill. Use amcl APIs to set the element to zero in a more direct way.
     ECP_BN254 g1;
     ECP2_BN254 g2;
     element_t zero;
@@ -181,32 +180,6 @@ mpz_mod(c[0].z,c[0].z,c[0].p);
 }
 
 
-
-/*
-void element_pow_zn(element_t c,element_t a, element_t b) { 
-
-    ECP_BN254 tmp1;
-    ECP1_BN254 tmp2;
-    FP12_BN254 tmpT;
-    BIG_256_56 s;
-    BIG_256_56_from_mpz(s, b[0].z);
-	if (c[0].type==0){
-ECP_BN254_copy(&tmp1,&(a[0].g1));
-ECP_BN254_mul(&tmp1,s);
-ECP_BN254_copy(&(c[0].g1),&tmp1);
-}
-else if (c[0].type==1){
-ECP2_BN254_copy(&tmp2,&(a[0].g2));
-ECP2_BN254_mul(&tmp2,s);
-ECP2_BN254_copy(&(c[0].g2),&tmp2);
-}
-	if (c[0].type==2){
-FP12_BN254_pow(&(c[0].gT),&(a[0].tmpT),s);
-}
-
-}
-
-*/
 void element_div(element_t c,element_t a,element_t b){ /* c=a/b  */
     ECP_BN254 tmp1;
     ECP2_BN254 tmp2;
@@ -257,11 +230,8 @@ void pairing_pp_init(pairing_pp_t pp,element_t x, pairing_t p){
 	if (x[0].type!=0) printf("error in pairing_pp_init\n");
 pp[0].type=0;
 mpz_init(pp[0].p);
-//printf("pp_init %d\n",x[0].type);
 mpz_set(pp[0].p,x[0].p);
-//printf("end pp_init\n");
 	ECP_BN254_copy(&(pp[0].g1),&(x[0].g1));
-//printf("end pp_init\n");
 }
 void pairing_pp_clear(pairing_pp_t pp){
 	return;
@@ -378,7 +348,6 @@ int element_snprintf(char *str, unsigned int length, char *format, element_t g,e
 	FP12_BN254_toOctet(&w,&(v[0].gT));
 		OCT_toStr(&w,a4);
 sprintf(str,"%s%s%s%s",a1,a2,a3,a4);
-//sprintf(str,"F");
   free(a1);
   free(a2);
   free(a3);
@@ -416,17 +385,10 @@ pairing_t p;
 	   else if (g[0].type==2) element_init_GT(tmp,p);
 element_set0(i);
 element_set1(one);
-	//	   printf("inizio %lu\n",mpz_get_ui(i[0].z));
 	   while (1){
-	//	   printf("inizio1 %lu\n",mpz_get_ui(i[0].z));
 element_pow_zn(tmp,g,i);
-	//	   printf("inizio2 %lu\n",mpz_get_ui(i[0].z));
 if (element_cmp(tmp,h)==0) { 
-	//	   printf("inizio3 %lu\n",mpz_get_ui(i[0].z));
 	element_set(x,i); 
-	//	   printf("inizio4 %lu\n",mpz_get_ui(i[0].z));
-	//	   printf("fine %lu\n",mpz_get_ui(x[0].z));
- //if (mpz_cmp_ui(x[0].z,*((unsigned long int*) CURVE_Order_BN254))==0) mpz_set_si(x[0].z, 0);
 	
 	return; }
 element_add(i,i,one);

@@ -1,4 +1,4 @@
-// NIVS implementation.
+// MINI-FE demo.
 //
 // Vincenzo Iovino
 #include <stdio.h>

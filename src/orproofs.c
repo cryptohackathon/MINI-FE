@@ -55,7 +55,6 @@ ChaumPedersenSimulator (pairing_t * pairing, element_t * g, element_t * h,
   /* a=g^r, b=h^r, z=r+H(a,b)w, where h=g^w */
   char str[2048];
   element_t hash, temp1, temp2, temp3, temp4;
-//element_printf("cccc%B\n",public_key[0]);
   element_init_Zr (hash, *pairing);
   element_init_GT (temp3, *pairing);
   element_init_GT (temp4, *pairing);
@@ -63,7 +62,6 @@ ChaumPedersenSimulator (pairing_t * pairing, element_t * g, element_t * h,
   element_init_GT (res->b, *pairing);
   element_init_Zr (res->z, *pairing);
   element_init_Zr (res->e, *pairing);
-//element_printf("cccc%B\n",public_key[0]);
   element_init_GT (temp1, *pairing);
   element_init_GT (temp2, *pairing);
   element_random (res->z);
