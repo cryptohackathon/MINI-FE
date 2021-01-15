@@ -400,7 +400,6 @@ return 2;
 }
 
 void pairing_init_set_str(pairing_t p,const char *param){
-	printf("Our lib\n");
 	return;
 }
 
