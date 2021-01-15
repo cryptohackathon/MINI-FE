@@ -133,3 +133,4 @@ EvalTallyGrade (const int N, pairing_t * pairing, element_t * g,
 ```
 takes as input the number of participants, the pairing instance, the generator ``g`` used by all participants, the hash ``hash` explained before, the public-key array ``pk``, the ciphertext array ``CT and the array ``Y`` of all participants and compute as follow. It returns ``true`` iff the proofs are verified. Moreover it sets the result of the grading in the element pointed by ``Res``.
 
+The header file ``nife.h`` exposes all other similar routines for the functionalities 'Dead or Alive' and 'Unanimity'. In these case, there is no need for NIZK proofs and verifications since, by design of the systems, there are no invalid ciphertexts (except for ciphertexts not representing valid group elements).
