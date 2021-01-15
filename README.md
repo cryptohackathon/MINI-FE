@@ -29,7 +29,7 @@ In achieving our new functionality and demo we also implement an abstraction of 
 
 [pbc]: https://crypto.stanford.edu/pbc/
 
-In particular the programmer can implement PBC systems using the same set of APIS from the Stanford's pbc library and simply setting a flag the code can be linked either to the Stanford's pbc or to the CiFEr library. So all applications of Stanford's pbc become compatible with CiFEr as well.
+In particular the programmer can implement PBC systems using the same set of APIs from the Stanford's pbc library and simply setting a flag the code can be linked either to the Stanford's pbc or to the CiFEr library. So all applications of Stanford's pbc become compatible with CiFEr as well.
 
 ## Installation
 ```bash
@@ -131,7 +131,7 @@ In addition, it computes a NIZK proof that can be used to verify the ciphertext.
 
 The value ``pairing`` is the pairing instance with which all group elements are generated. 
 
-The element ``hash`` is a value that is supposed to depend on the grade cerimony. For security to hold it has to be different in each cerimony and can be chosen as the hash of a fixed string (e.g., the identifier of the cerimony) - see the code's demo for major details.
+The element ``hash`` is a value that is supposed to depend on the grade ceremony. For security to hold it has to be different in each ceremony and can be chosen as the hash of a fixed string (e.g., the identifier of the ceremony) - see the code's demo for major details.
 
 The function
 ```C
@@ -150,10 +150,10 @@ can be executed just with the command:
 ```bash
 ./demo_cifer
 ```
- The demo is supposed to simulate locally an evaluation cerimony for the candidates/projects of the Crypto Hackaton.
+ The demo is supposed to simulate locally an evaluation ceremony for the candidates/projects of the Crypto Hackaton.
 * The demo starts by asking you how many Judges are in the system.
 * For each candidate of the Hackaton, the demo starts an evaluation.
 	* For each Judge, it asks a secret pin from which the secret-key is computed.
-	* It asks which kind of cerimony you want to do - average grading, dead or alive, or unanimity.
-	* For each Judge it asks the secret pin and a grade/decision to assig to the candidate - a number from 0 to 2 for average grade cerimonies, and a bit for the other types.
-	* The evaluation of the candidate is computed along with the verification of the NIZK proofs. The verification step is done only for average grade elections and  in the case if a Judge input an invalid grade the invalid ciphertext is detected and cerimony aborts. 
+	* It asks which kind of ceremony you want to do - average grading, dead or alive, or unanimity.
+	* For each Judge it asks the secret pin and a grade/decision to assign to the candidate - a number from 0 to 2 for average grade ceremonies, and a bit for the other types.
+	* The evaluation of the candidate is computed along with the verification of the NIZK proofs. The verification step is done only for average grade elections and  in the case if a Judge input an invalid grade the invalid ciphertext is detected and ceremony aborts. 
