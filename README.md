@@ -2,11 +2,11 @@
 ## Overview
 The goal is to extend the [CiFEr][cifer] library with new functionalities that implement a sort of multi-input FE without trusted parties. The setting is the following. 
 
-There are N participants, and each of them generates a pair of public and secret-keys. Each participant knows the public-keys of all other participants. 
+* There are N participants, and each of them generates a pair of public and secret-keys. Each participant knows the public-keys of all other participants. 
 
-The i-th participant can encode an input Xi with her/his own secret-key and the public-keys of the others to generate a ciphertext CTi. 
+* The i-th participant can encode an input Xi with her/his own secret-key and the public-keys of the others to generate a ciphertext CTi. 
 
-There is a public Eval function that takes all ciphertexts and compute f(x1,...,xn) where f is a given function (we explain below the functions we achieve).
+* There is a public Eval function that takes all ciphertexts and compute f(x1,...,xn) where f is a given function (we explain below the functions we achieve).
 
 [cifer]: https://github.com/fentec-project/CiFEr
 
