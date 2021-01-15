@@ -141,4 +141,4 @@ The demo ``demo_cifer`` (and also ``demo_pbc`` in the case you installed the Sta
 	* For each Judge, it asks a secret pin from which the secret-key is computed.
 	* It asks which kind of cerimony you want to do - average grading, dead or alive, or unanimity.
 	* For each Judge it asks the secret pin and a grade/decision to assig to the candidate - a number from 0 to 2 for average grade cerimonies, and a bit for the other types.
-	* The evaluation of the candidate is computed.
+	* The evaluation of the candidate is computed along with the verification of the NIZK proofs. The verification step is done only for average grade elections and  in the case if a Judge input an invalid grade the invalid ciphertext is detected and cerimony aborts. 
