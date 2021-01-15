@@ -88,17 +88,31 @@ Since the pairing routines are a subset of the Stanford's pbc library, one can f
 Moreover, existing programs designed for the Stanford's pbc library can be compiled with the minife library if they use pbc's routines also present in minife.
 
 
-### MINI-FE APIsa
+### MINI-FE APIs
 The following function generates a secret-key from an integer (e.g., a numerical pin):
 ```C
 void GenerateSecretKeyFromInt(element_t *secret_key,int pin);
 ```
 It is assumed that the secret_key ``secret_key`` has been already initialized with the appropriate pairing routine (see the demo).
+
 The following function
 ```C
 void ComputePublicKey(element_t *public_key,element_t *g, element_t *secret_key);
 ```
 computes a public-key ``public_key`` from the secret-key ``secret_key`` and from a public generator ``g``.
+
+The following function
+```C
+void ComputeY(element_t *Y,int N,int i,element_t public_key[],pairing_t *p);
+```
+can be executed as in the following code
+```C
+    ComputeY(&Y[i-1],N,i,public_key,&pairing);
+```
+by the i-th participant to generate a value ``Y`` that depends on the public-keys of all other participants. The value ``public_key`` is in the previous code is indeed an array of the N public-keys of all participants. 
+The value ``pairing`` is the pairing instance with which all group elements are generated.
+
+
 The following function
 ```C
 void EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
@@ -106,3 +120,16 @@ void EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
 	   element_t * Y, element_t * CT, ChaumPedersenProof Proof[3]);
 ```
 computes a ciphertext ``CT`` from the grade ``grade``, the secret-key and the so computed value ``Y`` that depends on all other public-keys of other participants. In addition, it computes a NIZK proof that can be used to verify the ciphertext.
+The value ``pairing`` is the pairing instance with which all group elements are generated. 
+The element ``hash`` is a value that is supposed to depend on the grade cerimony. For security to hold it has to be different in each cerimony and can be chosen as the hash of a fixed string (e.g., the identifier of the cerimony) - see the code's demo for major details.
+
+The function
+```C
+int
+EvalTallyGrade (const int N, pairing_t * pairing, element_t * g,
+		element_t * hash, element_t pk[], element_t Y[],
+		element_t CT[], element_t * Res,
+		ChaumPedersenProof Proofs[][3]);
+```
+takes as input the number of participants, the pairing instance, the generator ``g`` used by all participants, the hash ``hash` explained before, the public-key array ``pk``, the ciphertext array ``CT and the array ``Y`` of all participants and compute as follow. It returns ``true`` iff the proofs are verified. Moreover it sets the result of the grading in the element pointed by ``Res``.
+
