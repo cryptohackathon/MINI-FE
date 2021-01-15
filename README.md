@@ -10,7 +10,7 @@ The goal is to extend the [CiFEr][cifer] library with new functionalities that i
 
 [cifer]: https://github.com/fentec-project/CiFEr
 
-### Applications to Secure Grading 
+### Applications to Private Grading 
 We show the practicality of our systems by presenting a demo application to online Hackatons.
 In an online Hackaton there are N Judges who have to assign a grade to each Hackaton's candidate. 
 Each judge encodes his/her grade for the candidate in a MINI-FE ciphertext, where the grade is an integer from 0 to 2 (our system can be easily extended to allow larger ranges), with 0 being reject, 1 borderline, 2 accept.
@@ -21,9 +21,10 @@ The demo also allows to perform Decisions by Unanimity and "Dead or Alive" Decis
 ### Verifiability
 The MINI-FE schemes we implement are verifiable. That is, the system can detect if a Judge casts an invalid grade/decision. To achieve this, we also implement NIZK range proofs.
 ### Security
-Our MINI-FE systems are provably secure from the [Decision Linear Assumption][dlin] over bilinear groups.
+Our MINI-FE systems are provably secure from the [Bilinear Decision Diffie-Hellman Assumption][bddh] over bilinear groups.
 
-[dlin]: http://crypto.stanford.edu/~dabo/papers/groupsigs.pdf
+[bddh]: https://crypto.stanford.edu/~dabo/papers/bfibe.pdf
+
 ### Compatibility with Stanford's pbc library
 In achieving our new functionality and demo we also implement an abstraction of pairing-based cryptography (PBC). Our abstraction allows to construct PBC systems in a way that makes them compatible both with the CiFEr library and the Stanford [pbc] library.
 
