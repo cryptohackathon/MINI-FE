@@ -57,16 +57,24 @@ EvalTallyGrade (const int N, pairing_t * pairing, element_t * g,
       element_pairing (Pk, *hash, Y[i - 1]);
       element_pairing (C1, *hash, pk[i - 1]);
       element_set (temp2, CT[i - 1]);
+#if DEBUG_PROOFS == 1
       printf ("%sVerifying Ciphertext #%d%s: ", KBLU, i, KWHT);
+#endif
       if (CDS3Verifier (pairing, &Base, &Pk, &C1, &temp2, &Proofs[i - 1][0])
 	  == 0)
 	{
+#if DEBUG_PROOFS == 1
 	  printf
-	    ("%sJudge #%d cast invalid grade or used wrong secret PIN\n Aborting...%s\n",
+	    ("%sJudge #%d cast invalid grade or used wrong secret PIN\n%s\n",
 	     KRED, i, KWHT);
+#endif
 	 return 0;
 	}
-      else printf("%sOK%s\n",KGRN,KWHT);
+      else{
+#if DEBUG_PROOFS == 1
+	      printf("%sOK%s\n",KGRN,KWHT);
+#endif
+      }
       element_mul (temp, temp, CT[i - 1]);
       {
 	      element_t T;

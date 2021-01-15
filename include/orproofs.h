@@ -1,5 +1,6 @@
 #ifndef ORPROOFS_HEADER
 #define ORPROOFS_HEADER
+#define DEBUG_PROOFS 1
 typedef struct
 {
   element_t a, b, e, z;		/* a=g^r, b=h^r, z=r+H(a,b)w, where h=g^w; e used in CDS's OR proofs */

@@ -225,7 +225,12 @@ ComputePublicKey(&public_key[i-1],&g,&secret_key[i-1]);
 	    if (EvalTallyGrade
 		(N, &pairing, &g, &hash, &public_key[0], Y, CT, &res,
 		 Proofs) == 0)
-	      break;
+	    {
+	  printf
+	    ("%sOne of the Judges cast invalid grade or used wrong secret PIN\nAborting...%s\n",
+	     KRED, KWHT);
+		    break;
+	    }
 	    element_to_mpz (z, res);
 	    average = mpz_get_si (z);
 	    average /= N;
