@@ -34,34 +34,6 @@ clearscreen (void)
     printf ("\n");
 }
 
-void
-InputSecretKey (int voter, element_t * secret_key,pairing_t *pairing)
-{
-  int pin;
-
-  while (1)
-    {
-      int n, c;
-      printf ("Judge %d, input you secret PIN: %s", voter, KBLACK);
-      n = scanf ("%d", &pin);
-      printf ("%s", KWHT);
-      while (1)
-	{
-	  if ((c = getchar ()) != '\n' && c != EOF)
-	    n = -1;
-	  else
-	    break;
-	}
-      if (n != 1)
-	{
-	  printf ("\n Error: your PIN must be numerical\n");
-	}
-      else
-	break;
-    }
-  GenerateSecretKeyFromInt (secret_key, pin,pairing);
-  clearscreen ();
-}
 void error(char *s){
 fprintf(stderr,"usage: %s N g pk1 ... pkN ct1 ... ctN\nThe program will evaluate the tally for the N participants given their public-keys pk1 ... pkN, ciphertexts ct1 ... ctN and the generator g.\n",s);
 exit(1);
@@ -89,7 +61,6 @@ if (argc==1) error(argv[0]);
     char str[10];
     element_t public_key[N], hash, Y[N];
     element_t CT[N];
-element_t tx;
     ChaumPedersenProof Proofs[N][RANGE_OF_GRADING];
     if (argv[2]==NULL) error(argv[0]);
     else read_element_from_file(g,argv[2]);
@@ -97,13 +68,10 @@ element_t tx;
 	element_init_GT (temp1, pairing);
 	element_init_GT (temp2, pairing);
 
-element_init_Zr(tx,pairing);
 
    for (i=0;i<N;i++){
     if (argv[3+i]==NULL) error(argv[0]);
     else read_element_from_file(public_key[i],argv[3+i]);
-element_dlog_brute_force (tx, g, public_key[i]);
-printf("%lu\n",mpz_get_ui(tx[0].z));
    }
     for (i = 1; i <= N; i++){
 	element_init_G2 (Y[i - 1], pairing);
@@ -111,7 +79,6 @@ printf("%lu\n",mpz_get_ui(tx[0].z));
     }
 /*compute the Y_i's */
     for (i = 1; i <= N; i++)      ComputeY (&Y[i - 1], N, i, public_key, &pairing);
-
 /* print all PKs */
     {
 #if PBC_OR_CIFER == 1
