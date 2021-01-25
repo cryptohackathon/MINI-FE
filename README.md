@@ -13,7 +13,7 @@ The goal is to extend the [CiFEr][cifer] library with new functionalities that i
 ### Applications to Private Grading 
 We show the practicality of our systems by presenting a demo application to online Hackatons.
 In an online Hackaton there are N Judges who have to assign a grade to each Hackaton's candidate. 
-Each judge encodes his/her grade for each candidate in a MINI-FE ciphertext, where the grade is an integer from 0 to ``RANGE_OF_GRADING``-1 (a parameter that can be set at compilation time).
+Each judge encodes his/her grade for each candidate in a MINI-FE ciphertext, where the grade is an integer from 0 to ``RANGE_OF_GRADING-1`` (a parameter that can be set at compilation time).
 
 From all ciphertexts the average grade for each candidate can be computed. Each ciphertext individually does not reveal the grade the Judge assigned to a candidate so the Judge's privacy is preserved.
 
