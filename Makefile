@@ -5,7 +5,7 @@ IOPT=-I $(PBC_INCLUDE_PATH) -I ./include
 LDFLAGS=-lgmp -lcifer -lpbc
 DFLAGS=-DRANGE_OF_GRADING=4
 all:  testpairings_cifer demo_cifer testpairings_pbc demo_pbc libminife.so compute_generator generate_keys generate_keys_from_pin  submitgrade evaltally
-onlycifer:  testpairings_cifer demo_cifer libminife.so
+onlycifer:  testpairings_cifer demo_cifer libminife.so compute_generator generate_keys generate_keys_from_pin  submitgrade evaltally
 testpairings_pbc.o: src/testpairings.c
 	$(CC) -o src/testpairings_pbc.o -c $(CCOPT) src/testpairings.c $(IOPT) -DPBC_OR_CIFER=0 $(DFLAGS)
 testpairings_cifer.o: src/testpairings.c
