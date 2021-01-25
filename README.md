@@ -158,7 +158,7 @@ takes as input the number of participants, the pairing instance, the generator `
 
 The header file ``nife.h`` exposes all other similar routines for the functionalities 'Dead or Alive' and 'Unanimity'. In these case, there is no need for NIZK proofs and verifications since, by design of the systems, there are no invalid ciphertexts (except for ciphertexts not representing valid group elements).
 ## Command-line utilities
-The programs ``compute_generator``, `generate_keys``, ``generate_keys_from_pin``,``submitgrade`` and ``evaltally`` can be used to run private grading ceremonies from command-line. Run the programs without arguments to know the usage.
+The programs ``compute_generator``, ``generate_keys``, ``generate_keys_from_pin``,``submitgrade`` and ``evaltally`` can be used to run private grading ceremonies from command-line. Run the programs without arguments to know the usage.
 ## Demo
 The demo ``demo_cifer`` (and ``demo_pbc`` as well in the case you also installed the Stanford pbc's version)
 can be executed just with the command:
