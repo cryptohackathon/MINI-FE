@@ -3,7 +3,8 @@
 void
 EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
 	     element_t * hash, element_t * secret_key, const long int *grade,
-	     element_t * Y, element_t * Res, ChaumPedersenProof Proof[RANGE_OF_GRADING])
+	     element_t * Y, element_t * Res,
+	     ChaumPedersenProof Proof[RANGE_OF_GRADING])
 {
   element_t temp1, temp2, temp3, temp4;
   element_t pk, Pk, Base, C1;
@@ -30,7 +31,7 @@ EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
   element_pow_zn (pk, *g, *secret_key);
   element_pairing (Pk, *hash, *Y);
   element_pairing (C1, *hash, pk);
-  if (*grade >= 0 && *grade <= RANGE_OF_GRADING-1)
+  if (*grade >= 0 && *grade <= RANGE_OF_GRADING - 1)
     CDS3Prover (pairing, &Base, &Pk, &C1, Res, secret_key, *grade, Proof);
   else
     CDS3Prover (pairing, &Base, &Pk, &C1, Res, secret_key, 0, Proof);
@@ -65,11 +66,9 @@ EvalTallyGrade (const int N, pairing_t * pairing, element_t * g,
 	  == 0)
 	{
 #if DEBUG_PROOFS == 1
-	  printf
-	    ("%sCiphertext #%d is invalid\n%s\n",
-	     KRED, i, KWHT);
+	  printf ("%sCiphertext #%d is invalid\n%s\n", KRED, i, KWHT);
 #endif
-return 0;
+	  return 0;
 	}
       else
 	{
@@ -205,18 +204,18 @@ EvalTallyUnanimity (const int N, pairing_t * pairing, element_t * g,
 }
 
 void
-GenerateSecretKey (element_t * secret_key,pairing_t *p)
+GenerateSecretKey (element_t * secret_key, pairing_t * p)
 {
 
-	element_init_Zr (*secret_key, *p);
+  element_init_Zr (*secret_key, *p);
   element_random (*secret_key);
 
 }
 
 void
-GenerateSecretKeyFromInt (element_t * secret_key, int pin,pairing_t *p)
+GenerateSecretKeyFromInt (element_t * secret_key, int pin, pairing_t * p)
 {
-	element_init_Zr (*secret_key, *p);
+  element_init_Zr (*secret_key, *p);
 
   mpz_t z;
   mpz_init (z);
@@ -226,19 +225,21 @@ GenerateSecretKeyFromInt (element_t * secret_key, int pin,pairing_t *p)
 
 }
 
-void ComputeGenerator(element_t *g,pairing_t *p){
+void
+ComputeGenerator (element_t * g, pairing_t * p)
+{
   element_init_G2 (*g, *p);
- element_random (*g);
+  element_random (*g);
 
 }
 
 void
 ComputePublicKey (element_t * public_key, element_t * g,
-		  element_t * secret_key,pairing_t *p)
+		  element_t * secret_key, pairing_t * p)
 {
- // element_init_G2 (*g, *p);
- //element_random (*g);
-	element_init_G2 (*public_key, *p);
+  // element_init_G2 (*g, *p);
+  //element_random (*g);
+  element_init_G2 (*public_key, *p);
   element_pow_zn (*public_key, *g, *secret_key);
 }
 
@@ -261,56 +262,83 @@ ComputeY (element_t * Y, int N, int i, element_t public_key[], pairing_t * p)
     }
 
 }
-	
-void ComputeId(element_t *hash,char *str,pairing_t *p){
-    element_init_G1 (*hash, *p);
-	element_from_hash (*hash, str, strlen(str));
-	}
+
+void
+ComputeId (element_t * hash, char *str, pairing_t * p)
+{
+  element_init_G1 (*hash, *p);
+  element_from_hash (*hash, str, strlen (str));
+}
 
 
 #if PBC_OR_CIFER == 1
-int write_ciphertextwproofs_to_file(element_t CT,ChaumPedersenProof Proof[RANGE_OF_GRADING], char *filename){
-FILE *f_ct;
-int i;
-if ((f_ct=fopen(filename,"w+"))==NULL) return -1;
-_write_element_to_file(CT,f_ct);
-for (i=0;i<RANGE_OF_GRADING;i++){
-_write_element_to_file(Proof[i].a,f_ct);
-_write_element_to_file(Proof[i].b,f_ct);
-_write_element_to_file(Proof[i].e,f_ct);
-_write_element_to_file(Proof[i].z,f_ct);
+int
+write_ciphertextwproofs_to_file (element_t CT,
+				 ChaumPedersenProof Proof[RANGE_OF_GRADING],
+				 char *filename)
+{
+  FILE *f_ct;
+  int i;
+  if ((f_ct = fopen (filename, "w+")) == NULL)
+    return -1;
+  _write_element_to_file (CT, f_ct);
+  for (i = 0; i < RANGE_OF_GRADING; i++)
+    {
+      _write_element_to_file (Proof[i].a, f_ct);
+      _write_element_to_file (Proof[i].b, f_ct);
+      _write_element_to_file (Proof[i].e, f_ct);
+      _write_element_to_file (Proof[i].z, f_ct);
+    }
+  if (fclose (f_ct) != 0)
+    return -1;
+  truncate (filename, 2048 * 16);	// we need this to make all ciphertexts of the same length - this may be needed when all ciphertexts are broacasted and the receiver receives the concatenation of all ciphertexts without knowing the corresponding length 
+  return 0;
 }
-if (fclose(f_ct)!=0) return -1;
-truncate(filename,2048*16); // we need this to make all ciphertexts of the same length - this may be needed when all ciphertexts are broacasted and the receiver receives the concatenation of all ciphertexts without knowing the corresponding length 
-return 0;
+
+int
+write_ciphertext_to_file (element_t CT, char *filename)
+{
+  FILE *f_ct;
+  if ((f_ct = fopen (filename, "w+")) == NULL)
+    return -1;
+  _write_element_to_file (CT, f_ct);
+  if (fclose (f_ct) != 0)
+    return -1;
+  truncate (filename, 2048 * 16);	// we need this to make all ciphertexts of the same length - this may be needed when all ciphertexts are broacasted and the receiver receives the concatenation of all ciphertexts without knowing the corresponding length 
+  return 0;
 }
-int write_ciphertext_to_file(element_t CT, char *filename){
-FILE *f_ct;
-if ((f_ct=fopen(filename,"w+"))==NULL) return -1;
-_write_element_to_file(CT,f_ct);
-if (fclose(f_ct)!=0) return -1;
-truncate(filename,2048*16); // we need this to make all ciphertexts of the same length - this may be needed when all ciphertexts are broacasted and the receiver receives the concatenation of all ciphertexts without knowing the corresponding length 
-return 0;
+
+int
+read_ciphertextwproofs_from_file (element_t CT,
+				  ChaumPedersenProof Proof[RANGE_OF_GRADING],
+				  char *filename)
+{
+  FILE *f_ct;
+  int i;
+  if ((f_ct = fopen (filename, "r")) == NULL)
+    return -1;
+  _read_element_from_file (CT, f_ct);
+  for (i = 0; i < RANGE_OF_GRADING; i++)
+    {
+      _read_element_from_file (Proof[i].a, f_ct);
+      _read_element_from_file (Proof[i].b, f_ct);
+      _read_element_from_file (Proof[i].e, f_ct);
+      _read_element_from_file (Proof[i].z, f_ct);
+    }
+  if (fclose (f_ct) != 0)
+    return -1;
+  return 0;
 }
-int read_ciphertextwproofs_from_file(element_t CT,ChaumPedersenProof Proof[RANGE_OF_GRADING], char *filename){
-FILE *f_ct;
-int i;
-if ((f_ct=fopen(filename,"r"))==NULL) return -1;
-_read_element_from_file(CT,f_ct);
-for (i=0;i<RANGE_OF_GRADING;i++){
-_read_element_from_file(Proof[i].a,f_ct);
-_read_element_from_file(Proof[i].b,f_ct);
-_read_element_from_file(Proof[i].e,f_ct);
-_read_element_from_file(Proof[i].z,f_ct);
-}
-if (fclose(f_ct)!=0) return -1;
-return 0;
-}
-int read_ciphertext_from_file(element_t CT, char *filename){
-FILE *f_ct;
-if ((f_ct=fopen(filename,"r"))==NULL) return -1;
-_read_element_from_file(CT,f_ct);
-if (fclose(f_ct)!=0) return -1;
-return 0;
+
+int
+read_ciphertext_from_file (element_t CT, char *filename)
+{
+  FILE *f_ct;
+  if ((f_ct = fopen (filename, "r")) == NULL)
+    return -1;
+  _read_element_from_file (CT, f_ct);
+  if (fclose (f_ct) != 0)
+    return -1;
+  return 0;
 }
 #endif

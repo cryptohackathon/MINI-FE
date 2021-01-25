@@ -131,7 +131,8 @@ ChaumPedersenVerifier (pairing_t * pairing, element_t * g, element_t * h,
 
 void
 CDS3Prover (pairing_t * pairing, element_t * g, element_t * h, element_t * u,
-	    element_t * v, element_t * w, int vote, ChaumPedersenProof res[RANGE_OF_GRADING])
+	    element_t * v, element_t * w, int vote,
+	    ChaumPedersenProof res[RANGE_OF_GRADING])
 {
   /* prove that either (g,h,u,v) is a DH tuple, or (g,h,u,v/g) is a DH or (g,h,u,v/g^2) is a DH tuple. Here vote is in {0,1,2} */
   element_t temp1, temp2, temp3, temp4, hash;
@@ -169,7 +170,8 @@ CDS3Prover (pairing_t * pairing, element_t * g, element_t * h, element_t * u,
 
 int
 CDS3Verifier (pairing_t * pairing, element_t * g, element_t * h,
-	      element_t * u, element_t * v, ChaumPedersenProof res[RANGE_OF_GRADING])
+	      element_t * u, element_t * v,
+	      ChaumPedersenProof res[RANGE_OF_GRADING])
 {
   /* prove that either (g,h,u,v) is a DH tuple, or (g,h,u,v/g) is a DH or (g,h,u,v/g^2) is a DH tuple. Here vote is in {0,1,2} */
   char str[2048];

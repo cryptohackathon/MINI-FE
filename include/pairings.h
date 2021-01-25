@@ -71,9 +71,9 @@ void element_sub (element_t c, element_t a, element_t b);
 void pairing_init_set_str (pairing_t p, const char *param);
 int element_cmp_ui (element_t a, unsigned long int b);
 int element_cmp_si (element_t a, signed long int b);
-int write_element_to_file(element_t g,char *filename);
-int read_element_from_file(element_t g,char *filename);
-int _write_element_to_file(element_t g,FILE *f);
-int _read_element_from_file(element_t g,FILE *f);
+int write_element_to_file (element_t g, char *filename);
+int read_element_from_file (element_t g, char *filename);
+int _write_element_to_file (element_t g, FILE * f);
+int _read_element_from_file (element_t g, FILE * f);
 #endif
 #endif

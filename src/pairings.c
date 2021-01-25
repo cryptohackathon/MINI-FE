@@ -546,91 +546,140 @@ element_to_mpz (mpz_t z, element_t e)
   mpz_set (z, e[0].z);
 }
 
-int _write_element_to_file(element_t g,FILE *f_g){
-unsigned long int n;
-n=sizeof(g[0].g1)+sizeof(g[0].g2)+sizeof(g[0].gT)+sizeof(g[0].x)+sizeof(g[0].type);
-if (fwrite((void*)&g[0],1,n,f_g)<=0) return -1;
-n=sizeof(g[0].z[0]._mp_alloc);
-if (fwrite((void*)&g[0].z[0]._mp_alloc,1,n,f_g)<=0) return -1;
-n=sizeof(g[0].z[0]._mp_size);
-if (fwrite((void*)&g[0].z[0]._mp_size,1,n,f_g)<=0) return -1;
-n=g[0].z[0]._mp_alloc*sizeof(mp_limb_t);
-if (fwrite((void*)&g[0].z[0]._mp_d[0],1,n,f_g)<=0) return -1;
-n=sizeof(g[0].p[0]._mp_alloc);
-if (fwrite((void*)&g[0].p[0]._mp_alloc,1,n,f_g)<=0) return -1;
-n=sizeof(g[0].p[0]._mp_size);
-if (fwrite((void*)&g[0].p[0]._mp_size,1,n,f_g)<=0) return -1;
-n=g[0].p[0]._mp_alloc*sizeof(mp_limb_t);
-if (fwrite((void*)&g[0].p[0]._mp_d[0],1,n,f_g)<=0) return -1;
-return 0;
+int
+_write_element_to_file (element_t g, FILE * f_g)
+{
+  unsigned long int n;
+  n =
+    sizeof (g[0].g1) + sizeof (g[0].g2) + sizeof (g[0].gT) + sizeof (g[0].x) +
+    sizeof (g[0].type);
+  if (fwrite ((void *) &g[0], 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].z[0]._mp_alloc);
+  if (fwrite ((void *) &g[0].z[0]._mp_alloc, 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].z[0]._mp_size);
+  if (fwrite ((void *) &g[0].z[0]._mp_size, 1, n, f_g) <= 0)
+    return -1;
+  n = g[0].z[0]._mp_alloc * sizeof (mp_limb_t);
+  if (fwrite ((void *) &g[0].z[0]._mp_d[0], 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].p[0]._mp_alloc);
+  if (fwrite ((void *) &g[0].p[0]._mp_alloc, 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].p[0]._mp_size);
+  if (fwrite ((void *) &g[0].p[0]._mp_size, 1, n, f_g) <= 0)
+    return -1;
+  n = g[0].p[0]._mp_alloc * sizeof (mp_limb_t);
+  if (fwrite ((void *) &g[0].p[0]._mp_d[0], 1, n, f_g) <= 0)
+    return -1;
+  return 0;
 }
 
-int write_element_to_file(element_t g,char *filename){
-FILE *f_g;
-unsigned long int n;
-if ((f_g=fopen(filename,"w+"))==NULL) return -1;
-n=sizeof(g[0].g1)+sizeof(g[0].g2)+sizeof(g[0].gT)+sizeof(g[0].x)+sizeof(g[0].type);
-if (fwrite((void*)&g[0],1,n,f_g)<=0) return -1;
-n=sizeof(g[0].z[0]._mp_alloc);
-if (fwrite((void*)&g[0].z[0]._mp_alloc,1,n,f_g)<=0) return -1;
-n=sizeof(g[0].z[0]._mp_size);
-if (fwrite((void*)&g[0].z[0]._mp_size,1,n,f_g)<=0) return -1;
-n=g[0].z[0]._mp_alloc*sizeof(mp_limb_t);
-if (fwrite((void*)&g[0].z[0]._mp_d[0],1,n,f_g)<=0) return -1;
-n=sizeof(g[0].p[0]._mp_alloc);
-if (fwrite((void*)&g[0].p[0]._mp_alloc,1,n,f_g)<=0) return -1;
-n=sizeof(g[0].p[0]._mp_size);
-if (fwrite((void*)&g[0].p[0]._mp_size,1,n,f_g)<=0) return -1;
-n=g[0].p[0]._mp_alloc*sizeof(mp_limb_t);
-if (fwrite((void*)&g[0].p[0]._mp_d[0],1,n,f_g)<=0) return -1;
-if (fclose(f_g)!=0) return -1;
-return 0;
+int
+write_element_to_file (element_t g, char *filename)
+{
+  FILE *f_g;
+  unsigned long int n;
+  if ((f_g = fopen (filename, "w+")) == NULL)
+    return -1;
+  n =
+    sizeof (g[0].g1) + sizeof (g[0].g2) + sizeof (g[0].gT) + sizeof (g[0].x) +
+    sizeof (g[0].type);
+  if (fwrite ((void *) &g[0], 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].z[0]._mp_alloc);
+  if (fwrite ((void *) &g[0].z[0]._mp_alloc, 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].z[0]._mp_size);
+  if (fwrite ((void *) &g[0].z[0]._mp_size, 1, n, f_g) <= 0)
+    return -1;
+  n = g[0].z[0]._mp_alloc * sizeof (mp_limb_t);
+  if (fwrite ((void *) &g[0].z[0]._mp_d[0], 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].p[0]._mp_alloc);
+  if (fwrite ((void *) &g[0].p[0]._mp_alloc, 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].p[0]._mp_size);
+  if (fwrite ((void *) &g[0].p[0]._mp_size, 1, n, f_g) <= 0)
+    return -1;
+  n = g[0].p[0]._mp_alloc * sizeof (mp_limb_t);
+  if (fwrite ((void *) &g[0].p[0]._mp_d[0], 1, n, f_g) <= 0)
+    return -1;
+  if (fclose (f_g) != 0)
+    return -1;
+  return 0;
 }
 
-int _read_element_from_file(element_t g,FILE*f_g){
-unsigned long int n;
-n=sizeof(g[0].g1)+sizeof(g[0].g2)+sizeof(g[0].gT)+sizeof(g[0].x)+sizeof(g[0].type);
-if (fread((void*)&g[0],1,n,f_g)<=0) return -1;
-n=sizeof(g[0].z[0]._mp_alloc);
-if (fread((void*)&g[0].z[0]._mp_alloc,1,n,f_g)<=0) return -1;
-n=sizeof(g[0].z[0]._mp_size);
-if (fread((void*)&g[0].z[0]._mp_size,1,n,f_g)<=0) return -1;
-n=g[0].z[0]._mp_alloc*sizeof(mp_limb_t);
-g[0].z[0]._mp_d=malloc(n);
-if (fread((void*)&g[0].z[0]._mp_d[0],1,n,f_g)<=0) return -1;
-n=sizeof(g[0].p[0]._mp_alloc);
-if (fread((void*)&g[0].p[0]._mp_alloc,1,n,f_g)<=0) return -1;
-n=sizeof(g[0].p[0]._mp_size);
-if (fread((void*)&g[0].p[0]._mp_size,1,n,f_g)<=0) return -1;
-n=g[0].p[0]._mp_alloc*sizeof(mp_limb_t);
-g[0].p[0]._mp_d=malloc(n);
-if (fread((void*)&g[0].p[0]._mp_d[0],1,n,f_g)<=0) return -1;
-return 0;
+int
+_read_element_from_file (element_t g, FILE * f_g)
+{
+  unsigned long int n;
+  n =
+    sizeof (g[0].g1) + sizeof (g[0].g2) + sizeof (g[0].gT) + sizeof (g[0].x) +
+    sizeof (g[0].type);
+  if (fread ((void *) &g[0], 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].z[0]._mp_alloc);
+  if (fread ((void *) &g[0].z[0]._mp_alloc, 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].z[0]._mp_size);
+  if (fread ((void *) &g[0].z[0]._mp_size, 1, n, f_g) <= 0)
+    return -1;
+  n = g[0].z[0]._mp_alloc * sizeof (mp_limb_t);
+  g[0].z[0]._mp_d = malloc (n);
+  if (fread ((void *) &g[0].z[0]._mp_d[0], 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].p[0]._mp_alloc);
+  if (fread ((void *) &g[0].p[0]._mp_alloc, 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].p[0]._mp_size);
+  if (fread ((void *) &g[0].p[0]._mp_size, 1, n, f_g) <= 0)
+    return -1;
+  n = g[0].p[0]._mp_alloc * sizeof (mp_limb_t);
+  g[0].p[0]._mp_d = malloc (n);
+  if (fread ((void *) &g[0].p[0]._mp_d[0], 1, n, f_g) <= 0)
+    return -1;
+  return 0;
 }
-int read_element_from_file(element_t g,char *filename){
-FILE *f_g;
-unsigned long int n;
-if ((f_g=fopen(filename,"r"))==NULL) return -1;
+
+int
+read_element_from_file (element_t g, char *filename)
+{
+  FILE *f_g;
+  unsigned long int n;
+  if ((f_g = fopen (filename, "r")) == NULL)
+    return -1;
 //_read_element_from_file(g,f_g);
 
-n=sizeof(g[0].g1)+sizeof(g[0].g2)+sizeof(g[0].gT)+sizeof(g[0].x)+sizeof(g[0].type);
-if (fread((void*)&g[0],1,n,f_g)<=0) return -1;
-n=sizeof(g[0].z[0]._mp_alloc);
-if (fread((void*)&g[0].z[0]._mp_alloc,1,n,f_g)<=0) return -1;
-n=sizeof(g[0].z[0]._mp_size);
-if (fread((void*)&g[0].z[0]._mp_size,1,n,f_g)<=0) return -1;
-n=g[0].z[0]._mp_alloc*sizeof(mp_limb_t);
-g[0].z[0]._mp_d=malloc(n);
-if (fread((void*)&g[0].z[0]._mp_d[0],1,n,f_g)<=0) return -1;
-n=sizeof(g[0].p[0]._mp_alloc);
-if (fread((void*)&g[0].p[0]._mp_alloc,1,n,f_g)<=0) return -1;
-n=sizeof(g[0].p[0]._mp_size);
-if (fread((void*)&g[0].p[0]._mp_size,1,n,f_g)<=0) return -1;
-n=g[0].p[0]._mp_alloc*sizeof(mp_limb_t);
-g[0].p[0]._mp_d=malloc(n);
-if (fread((void*)&g[0].p[0]._mp_d[0],1,n,f_g)<=0) return -1;
-if (fclose(f_g)!=0) return -1;
-return 0;
+  n =
+    sizeof (g[0].g1) + sizeof (g[0].g2) + sizeof (g[0].gT) + sizeof (g[0].x) +
+    sizeof (g[0].type);
+  if (fread ((void *) &g[0], 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].z[0]._mp_alloc);
+  if (fread ((void *) &g[0].z[0]._mp_alloc, 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].z[0]._mp_size);
+  if (fread ((void *) &g[0].z[0]._mp_size, 1, n, f_g) <= 0)
+    return -1;
+  n = g[0].z[0]._mp_alloc * sizeof (mp_limb_t);
+  g[0].z[0]._mp_d = malloc (n);
+  if (fread ((void *) &g[0].z[0]._mp_d[0], 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].p[0]._mp_alloc);
+  if (fread ((void *) &g[0].p[0]._mp_alloc, 1, n, f_g) <= 0)
+    return -1;
+  n = sizeof (g[0].p[0]._mp_size);
+  if (fread ((void *) &g[0].p[0]._mp_size, 1, n, f_g) <= 0)
+    return -1;
+  n = g[0].p[0]._mp_alloc * sizeof (mp_limb_t);
+  g[0].p[0]._mp_d = malloc (n);
+  if (fread ((void *) &g[0].p[0]._mp_d[0], 1, n, f_g) <= 0)
+    return -1;
+  if (fclose (f_g) != 0)
+    return -1;
+  return 0;
 }
 
 #endif

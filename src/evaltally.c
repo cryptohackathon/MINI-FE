@@ -34,14 +34,19 @@ clearscreen (void)
     printf ("\n");
 }
 
-void error(char *s){
-fprintf(stderr,"usage: %s N g pk1 ... pkN ct1 ... ctN\nThe program will evaluate the tally for the N participants given their public-keys pk1 ... pkN, ciphertexts ct1 ... ctN and the generator g.\n",s);
-exit(1);
+void
+error (char *s)
+{
+  fprintf (stderr,
+	   "usage: %s N g pk1 ... pkN ct1 ... ctN\nThe program will evaluate the tally for the N participants given their public-keys pk1 ... pkN, ciphertexts ct1 ... ctN and the generator g.\n",
+	   s);
+  exit (1);
 }
+
 int
 main (int argc, char **argv)
 {
-  int i, election, N,r;
+  int i, election, N, r;
   float average;
   pairing_t pairing;
   element_t g;			//, h;
@@ -52,9 +57,12 @@ main (int argc, char **argv)
   element_init_G1 (temp, pairing);
   element_init_Zr (zero, pairing);
   element_init_Zr (res, pairing);
-if (argc==1) error(argv[0]);
-      if (argv[1]==NULL) error(argv[0]); else 
-	      N = atoi(argv[1]);
+  if (argc == 1)
+    error (argv[0]);
+  if (argv[1] == NULL)
+    error (argv[0]);
+  else
+    N = atoi (argv[1]);
 
 
   {
@@ -62,23 +70,30 @@ if (argc==1) error(argv[0]);
     element_t public_key[N], hash, Y[N];
     element_t CT[N];
     ChaumPedersenProof Proofs[N][RANGE_OF_GRADING];
-    if (argv[2]==NULL) error(argv[0]);
-    else read_element_from_file(g,argv[2]);
-	
-	element_init_GT (temp1, pairing);
-	element_init_GT (temp2, pairing);
+    if (argv[2] == NULL)
+      error (argv[0]);
+    else
+      read_element_from_file (g, argv[2]);
+
+    element_init_GT (temp1, pairing);
+    element_init_GT (temp2, pairing);
 
 
-   for (i=0;i<N;i++){
-    if (argv[3+i]==NULL) error(argv[0]);
-    else read_element_from_file(public_key[i],argv[3+i]);
-   }
-    for (i = 1; i <= N; i++){
+    for (i = 0; i < N; i++)
+      {
+	if (argv[3 + i] == NULL)
+	  error (argv[0]);
+	else
+	  read_element_from_file (public_key[i], argv[3 + i]);
+      }
+    for (i = 1; i <= N; i++)
+      {
 	element_init_G2 (Y[i - 1], pairing);
-	element_set1 (Y[i-1]);
-    }
+	element_set1 (Y[i - 1]);
+      }
 /*compute the Y_i's */
-    for (i = 1; i <= N; i++)      ComputeY (&Y[i - 1], N, i, public_key, &pairing);
+    for (i = 1; i <= N; i++)
+      ComputeY (&Y[i - 1], N, i, public_key, &pairing);
 /* print all PKs */
     {
 #if PBC_OR_CIFER == 1
@@ -92,102 +107,112 @@ if (argc==1) error(argv[0]);
 #else
 	  element_snprintf_publickey (string, i, public_key[i - 1]);
 	  printf ("public key of participant %d=", i);
- ECP2_BN254_output (&public_key[i - 1][0].g2);
-//	  printf ("Y[%d]=", i);
-//	  ECP2_BN254_output (&Y[i - 1][0].g2);
+	  ECP2_BN254_output (&public_key[i - 1][0].g2);
+//        printf ("Y[%d]=", i);
+//        ECP2_BN254_output (&Y[i - 1][0].g2);
 	  printf ("\n");
 #endif
 	}
     }
-	    printf("Insert the identifier of the election: ");
-	    scanf("%d",&election);
-	sprintf (str, "%d\n", election);
-	
-	ComputeId(&hash,str,&pairing);
-	
-	pairing_pp_init (pp, hash, pairing);	/* we are going to do a lot of pairings with this value */
-	printf
-	  ("Press %s1 for verifying an Average Grade ceremony,%s 2 for Dead or Alive,%s 3 for Victory by unanimity,%s q to quit%s ",
-	   KCYN, KMAG, KYEL, KGRN, KWHT);
-while(1) {
+    printf ("Insert the identifier of the election: ");
+    scanf ("%d", &election);
+    sprintf (str, "%d\n", election);
+
+    ComputeId (&hash, str, &pairing);
+
+    pairing_pp_init (pp, hash, pairing);	/* we are going to do a lot of pairings with this value */
+    printf
+      ("Press %s1 for verifying an Average Grade ceremony,%s 2 for Dead or Alive,%s 3 for Victory by unanimity,%s q to quit%s ",
+       KCYN, KMAG, KYEL, KGRN, KWHT);
+    while (1)
+      {
 	scanf ("%2s", str);
-	    if (str[1] == '\0')break;
-	    printf ("Invaid choice. Press %s1 for verifying an Average Grade ceremony,%s 2 for Dead or Alive,%s 3 for Victory by unanimity,%s q to quit%s ", KCYN, KMAG, KYEL, KGRN, KWHT);
-	    flush ();
-  }
-	switch (str[0])
+	if (str[1] == '\0')
+	  break;
+	printf
+	  ("Invaid choice. Press %s1 for verifying an Average Grade ceremony,%s 2 for Dead or Alive,%s 3 for Victory by unanimity,%s q to quit%s ",
+	   KCYN, KMAG, KYEL, KGRN, KWHT);
+	flush ();
+      }
+    switch (str[0])
+      {
+      case '1':
+	mpz_init (z);
+	for (i = 0; i < N; i++)
 	  {
-	  case '1':
-		  mpz_init(z);
-   for (i=0;i<N;i++){
-    if (argv[3+N+i]==NULL) error(argv[0]);
-    else read_ciphertextwproofs_from_file(CT[i],Proofs[i],argv[3+N+i]);
-   }
-	      printf ("%sEvaluating the result for...pls wait%s\n",
-	       KBLU, KWHT);
-	    if (EvalTallyGrade
-		(N, &pairing, &g, &hash, &public_key[0], Y, CT, &res,
-		 Proofs) == 0)
-	      {
-		printf
-		  ("%sOne of the ciphertext is invalid\nAborting...%s\n",
-		   KRED, KWHT);
-		break;
-	      }
-	    else {
+	    if (argv[3 + N + i] == NULL)
+	      error (argv[0]);
+	    else
+	      read_ciphertextwproofs_from_file (CT[i], Proofs[i],
+						argv[3 + N + i]);
+	  }
+	printf ("%sEvaluating the result for...pls wait%s\n", KBLU, KWHT);
+	if (EvalTallyGrade
+	    (N, &pairing, &g, &hash, &public_key[0], Y, CT, &res,
+	     Proofs) == 0)
+	  {
+	    printf
+	      ("%sOne of the ciphertext is invalid\nAborting...%s\n",
+	       KRED, KWHT);
+	    break;
+	  }
+	else
+	  {
 	    element_to_mpz (z, res);
 	    average = mpz_get_si (z);
 	    average /= N;
 	    printf ("%sAverage grade for candidate #%d = %s%f%s%s\n\n\n",
 		    KCYN, election, BLINK, average, NOBLINK, KWHT);
-	    }
-    break;
-	  case '2':
-   for (i=0;i<N;i++){
-    if (argv[3+N+i]==NULL) error(argv[0]);
-    else read_ciphertext_from_file(CT[i],argv[3+N+i]);
-   }
-	    printf
-	      ("%sEvaluating the result...pls wait%s\n",
-	       KBLU, KWHT);
-	    EvalTallyDeadOrAlive (N, &pairing, &g, &hash, &CT[0], &r);
-	    if (r == 1)
-	      printf
-		("%sResult of Dead or Alive Decision = %s%sDead%s%s\n\n\n",
-		 KMAG, BLINK, KRED, KWHT, NOBLINK);
+	  }
+	break;
+      case '2':
+	for (i = 0; i < N; i++)
+	  {
+	    if (argv[3 + N + i] == NULL)
+	      error (argv[0]);
 	    else
-	      printf
-		("%sResult of Dead or Alive Decision = %s%sAlive%s%s\n\n\n",
-		 KMAG, BLINK, KGRN, KWHT, NOBLINK);
-	    break;
-	  case '3':
-   for (i=0;i<N;i++){
-    if (argv[3+N+i]==NULL) error(argv[0]);
-    else read_ciphertext_from_file(CT[i],argv[3+N+i]);
-   }
-	    printf
-	      ("%sEvaluating the result...pls wait%s\n",
-	       KBLU, KWHT);
-	    EvalTallyUnanimity (N, &pairing, &g, &hash, &CT[0], &r);
-	    if (r == 1)
-	      printf
-		("%sResult of Decision by Unanimity for candidate = %s%sVictory by Unanimity%s%s\n\n\n",
-		 KYEL, BLINK, KGRN, KWHT, NOBLINK);
+	      read_ciphertext_from_file (CT[i], argv[3 + N + i]);
+	  }
+	printf ("%sEvaluating the result...pls wait%s\n", KBLU, KWHT);
+	EvalTallyDeadOrAlive (N, &pairing, &g, &hash, &CT[0], &r);
+	if (r == 1)
+	  printf
+	    ("%sResult of Dead or Alive Decision = %s%sDead%s%s\n\n\n",
+	     KMAG, BLINK, KRED, KWHT, NOBLINK);
+	else
+	  printf
+	    ("%sResult of Dead or Alive Decision = %s%sAlive%s%s\n\n\n",
+	     KMAG, BLINK, KGRN, KWHT, NOBLINK);
+	break;
+      case '3':
+	for (i = 0; i < N; i++)
+	  {
+	    if (argv[3 + N + i] == NULL)
+	      error (argv[0]);
 	    else
-	      printf
-		("%sResult of Decision by Unanimity for candidate = %s%sNot approved by unanimity%s%s\n\n\n",
-		 KYEL, BLINK, KRED, KWHT, NOBLINK);
-	    break;
-	  case 'q':
-	    return 0;
-	    break;
-	  default:
-	    printf ("%sChoice not valid%s\n\n\n", KRED, KWHT);
-	    break;
+	      read_ciphertext_from_file (CT[i], argv[3 + N + i]);
+	  }
+	printf ("%sEvaluating the result...pls wait%s\n", KBLU, KWHT);
+	EvalTallyUnanimity (N, &pairing, &g, &hash, &CT[0], &r);
+	if (r == 1)
+	  printf
+	    ("%sResult of Decision by Unanimity for candidate = %s%sVictory by Unanimity%s%s\n\n\n",
+	     KYEL, BLINK, KGRN, KWHT, NOBLINK);
+	else
+	  printf
+	    ("%sResult of Decision by Unanimity for candidate = %s%sNot approved by unanimity%s%s\n\n\n",
+	     KYEL, BLINK, KRED, KWHT, NOBLINK);
+	break;
+      case 'q':
+	return 0;
+	break;
+      default:
+	printf ("%sChoice not valid%s\n\n\n", KRED, KWHT);
+	break;
 	pairing_pp_clear (pp);
       }
 
-    }
+  }
 
   return 0;
 }

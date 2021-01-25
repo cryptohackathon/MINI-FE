@@ -30,13 +30,13 @@ void
 clearscreen (void)
 {
   int i;
- return;
+  return;
   for (i = 0; i <= 100; i++)
     printf ("\n");
 }
 
 void
-InputSecretKey (int voter, element_t * secret_key,pairing_t *pairing)
+InputSecretKey (int voter, element_t * secret_key, pairing_t * pairing)
 {
   int pin;
 
@@ -60,7 +60,7 @@ InputSecretKey (int voter, element_t * secret_key,pairing_t *pairing)
       else
 	break;
     }
-  GenerateSecretKeyFromInt (secret_key, pin,pairing);
+  GenerateSecretKeyFromInt (secret_key, pin, pairing);
   clearscreen ();
 }
 
@@ -69,7 +69,7 @@ main (int argc, char **argv)
 {
   int i, election, N;
   pairing_t pairing;
-  element_t g;		
+  element_t g;
   element_t temp, temp1, temp2, zero, res;
   pairing_pp_t pp;
   pairing_init_set_str (pairing, Param);
@@ -114,13 +114,13 @@ main (int argc, char **argv)
     ChaumPedersenProof Proofs[N][RANGE_OF_GRADING];
     long int vote[N];
     mpz_init (z);
-	ComputeGenerator(&g,&pairing);
+    ComputeGenerator (&g, &pairing);
 #if PBC_OR_CIFER == 0
-	  element_printf ("g= %B\n\n",		  g);
+    element_printf ("g= %B\n\n", g);
 #else
-	  printf ("g=");
-	  ECP2_BN254_output (&g[0].g2);
-	  printf ("\n");
+    printf ("g=");
+    ECP2_BN254_output (&g[0].g2);
+    printf ("\n");
 #endif
     for (i = 1; i <= N; i++)
       {
@@ -129,9 +129,10 @@ main (int argc, char **argv)
 	element_init_GT (temp2, pairing);
 	element_set1 (Y[i - 1]);
 
-	InputSecretKey (i, &secret_key[i - 1],&pairing);
+	InputSecretKey (i, &secret_key[i - 1], &pairing);
 
-	ComputePublicKey (&public_key[i - 1], &g, &secret_key[i - 1],&pairing);
+	ComputePublicKey (&public_key[i - 1], &g, &secret_key[i - 1],
+			  &pairing);
 
       }
     {
@@ -151,17 +152,18 @@ main (int argc, char **argv)
 #endif
 	}
     }
-    for (i = 1; i <= N; i++){
-      ComputeY (&Y[i - 1], N, i, public_key, &pairing);
-    }
+    for (i = 1; i <= N; i++)
+      {
+	ComputeY (&Y[i - 1], N, i, public_key, &pairing);
+      }
 
     for (election = 1;; election++)
       {
 	sprintf (str, "%d\n", election);
 	printf ("\n\nEvaluating the Project of Candidate #%s\n\n", str);
-	
-	ComputeId(&hash,str,&pairing);
-	
+
+	ComputeId (&hash, str, &pairing);
+
 	pairing_pp_init (pp, hash, pairing);	/* we are going to do a lot of pairings with this value */
 	printf
 	  ("How do you want to judge the project's candidate? press %s1 for computing an Average Grade,%s 2 for Dead or Alive elections,%s 3 for Victory by unanimity,%s q to quit%s ",
@@ -181,10 +183,10 @@ main (int argc, char **argv)
 	  case '1':
 	    for (i = 1; i <= N; i++)
 	      {
-		InputSecretKey (i, &secret_key[i - 1],&pairing);
+		InputSecretKey (i, &secret_key[i - 1], &pairing);
 		printf
 		  ("Judge #%d, give a grade to the candidate #%d [from 0 to %d]: %s",
-		   i, election, RANGE_OF_GRADING-1,KBLACK);
+		   i, election, RANGE_OF_GRADING - 1, KBLACK);
 		scanf ("%ld", &vote[i - 1]);
 		printf ("%s", KWHT);
 		clearscreen ();
@@ -204,18 +206,19 @@ main (int argc, char **argv)
 		  ("%sOne of the Judges cast invalid grade or used wrong secret PIN\nAborting...%s\n",
 		   KRED, KWHT);
 	      }
-	    else{
-	    element_to_mpz (z, res);
-	    average = mpz_get_si (z);
-	    average /= N;
-	    printf ("%sAverage grade for candidate #%d = %s%f%s%s\n\n\n",
-		    KCYN, election, BLINK, average, NOBLINK, KWHT);
-	    }
+	    else
+	      {
+		element_to_mpz (z, res);
+		average = mpz_get_si (z);
+		average /= N;
+		printf ("%sAverage grade for candidate #%d = %s%f%s%s\n\n\n",
+			KCYN, election, BLINK, average, NOBLINK, KWHT);
+	      }
 	    break;
 	  case '2':
 	    for (i = 1; i <= N; i++)
 	      {
-		InputSecretKey (i, &secret_key[i - 1],&pairing);
+		InputSecretKey (i, &secret_key[i - 1], &pairing);
 		printf ("Judge #%d, insert your decision [0 or 1]: ", i);
 		scanf ("%ld", &vote[i - 1]);
 		clearscreen ();
@@ -243,7 +246,7 @@ main (int argc, char **argv)
 	  case '3':
 	    for (i = 1; i <= N; i++)
 	      {
-		InputSecretKey (i, &secret_key[i - 1],&pairing);
+		InputSecretKey (i, &secret_key[i - 1], &pairing);
 		printf ("Judge #%d, insert your decision [0 or 1]: ", i);
 		scanf ("%ld", &vote[i - 1]);
 		clearscreen ();

@@ -60,7 +60,7 @@ main (void)
   element_init_GT (gT2, p);
   element_init_GT (gT3, p);
   element_pairing (gT, c2, C2);	// gT=gT^2
-  element_pairing (gT2, e2, A2);	
+  element_pairing (gT2, e2, A2);
   element_dlog_brute_force (x, gT, gT2);
   element_to_mpz (D, x);
   printf ("brute force of gT2=%lu\n", mpz_get_ui (D));
