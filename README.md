@@ -13,7 +13,7 @@ The goal is to extend the [CiFEr][cifer] library with new functionalities that i
 ### Applications to Private Grading 
 We show the practicality of our systems by presenting a demo application to online Hackatons.
 In an online Hackaton there are N Judges who have to assign a grade to each Hackaton's candidate. 
-Each judge encodes his/her grade for each candidate in a MINI-FE ciphertext, where the grade is an integer from 0 to 2 (our system can be easily extended to allow larger ranges), with 0 being reject, 1 borderline, 2 accept.
+Each judge encodes his/her grade for each candidate in a MINI-FE ciphertext, where the grade is an integer from 0 to ``RANGE_OF_GRADING`` (a parameter that can be set at compilation time).
 
 From all ciphertexts the average grade for each candidate can be computed. Each ciphertext individually does not reveal the grade the Judge assigned to a candidate so the Judge's privacy is preserved.
 
@@ -131,7 +131,7 @@ The following function
 ```C
 void EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
 	   element_t * hash, element_t * secret_key, const long int *grade,
-	   element_t * Y, element_t * CT, ChaumPedersenProof Proof[3]);
+	   element_t * Y, element_t * CT, ChaumPedersenProof Proof[RANGE_OF_GRADING]);
 ```
 computes a ciphertext ``CT`` from the grade ``grade``, the secret-key and the so computed value ``Y`` that depends on all other public-keys of other participants. 
 
@@ -152,7 +152,7 @@ int
 EvalTallyGrade (const int N, pairing_t * pairing, element_t * g,
 		element_t * hash, element_t pk[], element_t Y[],
 		element_t CT[], element_t * Res,
-		ChaumPedersenProof Proofs[][3]);
+		ChaumPedersenProof Proofs[][RANGE_OF_GRADING]);
 ```
 takes as input the number of participants, the pairing instance, the generator ``g`` used by all participants, the hash ``hash` explained before, the public-key array ``pk``, the ciphertext array ``CT and the array ``Y`` of all participants and compute as follow. It returns ``true`` iff the proofs are verified. Moreover it sets the result of the grading in the element pointed by ``Res``.
 
