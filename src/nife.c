@@ -1,3 +1,6 @@
+// MINI-FE.
+//
+// Vincenzo Iovino
 #include "nife.h"
 #include <unistd.h>
 void

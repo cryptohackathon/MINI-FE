@@ -1,3 +1,6 @@
+// MINI-FE.
+//
+// Vincenzo Iovino
 #include "pairings.h"
 #include "orproofs.h"
 #include "nife.h"

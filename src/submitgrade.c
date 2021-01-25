@@ -1,4 +1,4 @@
-// MINI-FE demo.
+// MINI-FE.
 //
 // Vincenzo Iovino
 #include <stdio.h>

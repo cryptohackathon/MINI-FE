@@ -1,3 +1,6 @@
+// MINI-FE.
+//
+// Vincenzo Iovino
 #include <stdio.h>
 #include <string.h>
 #include "pairings.h"
