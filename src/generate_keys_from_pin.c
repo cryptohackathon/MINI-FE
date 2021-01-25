@@ -42,7 +42,7 @@ main (int argc, char **argv)
   if (argc != 4)
     {
       fprintf (stderr,
-	       "usage: %s sk g pk\nThe program will create a secret-key in the file sk and public-key in the file pk. The file g is the file output by the program compute_generator\n",
+	       "usage: %s sk g pk\nThe program will create a secret-key in the file sk and public-key in the file pk. The file g is the file output by the program compute_generator. It will ask a PIN as source of randomness to initialize the secret-key.\n",
 	       argv[0]);
       exit (1);
     }
