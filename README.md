@@ -41,6 +41,7 @@ It will ask you whether you want to additionally install the version of our libr
 
 It will create the files:
 * `minife.so` containing the MINI-FE library. 
+* A set of command-line programs to run private grading ceremonies. 
 * `demo_cifer` A demo of a secure grading system linked to the CiFEr library.
 * `demo_pbc` Same as before but linked to the Stanford's pbc library.
 * `testpairings_cifer` A program to perform some tests with pairing functions inked to the CiFEr library. The output of the program should be equal to the content of file output_test in the main directory.
@@ -96,18 +97,23 @@ Moreover, existing programs designed for the Stanford's pbc library can be compi
 
 
 ### MINI-FE APIs
-The following two functions generate resp. a random secret-key and a secret-key from an integer (e.g., a numerical pin):
+The following two functions generate resp. a random secret-key and a secret-key from an integer (e.g., a numerical pin) in the obvious way:
 ```C
-void GenerateSecretKey(element_t *secret_key);
-void GenerateSecretKeyFromInt(element_t *secret_key,int pin);
+void GenerateSecretKey(element_t *secret_key,pairing_t *p);
+void GenerateSecretKeyFromInt(element_t *secret_key,int pin,pairing_t *p);
 ```
-It is assumed that the secret_key ``secret_key`` has been already initialized via the appropriate pairing routine (see the demo).
 
 The following function
 ```C
-void ComputePublicKey(element_t *public_key,element_t *g, element_t *secret_key);
+void ComputeGenerator(element_t *g, pairing_t *p);
 ```
-computes a public-key ``public_key`` from the secret-key ``secret_key`` and from a public generator ``g``.
+computes a public generator ``g`` that will be used by all parties to compute public-keys and by other routines. It is assumed that the same pairing instance ``p`` is used by all parties.
+
+The following function
+```C
+void ComputePublicKey(element_t *public_key,element_t *g, element_t *secret_key, pairing_t *p);
+```
+computes a public-key ``public_key`` from the secret-key ``secret_key`` and from a public generator ``g`` and from a pairing instance ``p`` with which all elements will be initialized.
 
 The following function
 ```C
@@ -133,7 +139,12 @@ In addition, it computes a NIZK proof that can be used to verify the ciphertext.
 
 The value ``pairing`` is the pairing instance with which all group elements are generated. 
 
-The element ``hash`` is a value that is supposed to depend on the grade ceremony. For security to hold it has to be different in each ceremony and can be chosen as the hash of a fixed string (e.g., the identifier of the ceremony) - see the code's demo for major details.
+The element ``hash`` is a value that is supposed to depend on the grade ceremony. For security to hold it has to be different in each ceremony and can be chosen as the hash of a fixed string (e.g., the identifier of the ceremony).
+
+The following function can be used to compute such ``hash`` value. It takes as input the ``hash`` element (that must not be initialized before), a null-terminated string denoting the identifier of the election, a pairing instance, and sets ``hash`` to be an element that can be used by the previous and following procedures.
+```C
+void ComputeId(element_t *hash,char *str,pairing_t p);
+```
 
 The function
 ```C
@@ -146,6 +157,8 @@ EvalTallyGrade (const int N, pairing_t * pairing, element_t * g,
 takes as input the number of participants, the pairing instance, the generator ``g`` used by all participants, the hash ``hash` explained before, the public-key array ``pk``, the ciphertext array ``CT and the array ``Y`` of all participants and compute as follow. It returns ``true`` iff the proofs are verified. Moreover it sets the result of the grading in the element pointed by ``Res``.
 
 The header file ``nife.h`` exposes all other similar routines for the functionalities 'Dead or Alive' and 'Unanimity'. In these case, there is no need for NIZK proofs and verifications since, by design of the systems, there are no invalid ciphertexts (except for ciphertexts not representing valid group elements).
+## Command-line utilities
+The programs ``compute_generator``, `generate_keys``, ``generate_keys_from_pin``,``submitgrade`` and ``evaltally`` can be used to run private grading ceremonies from command-line. Run the programs without arguments to know the usage.
 ## Demo
 The demo ``demo_cifer`` (and ``demo_pbc`` as well in the case you also installed the Stanford pbc's version)
 can be executed just with the command:
