@@ -1,6 +1,7 @@
 #include "pairings.h"
 #include "orproofs.h"
 
+
 void
 ChaumPedersenProverFixedChallenge (pairing_t * pairing, element_t * g,
 				   element_t * h, element_t * u,
@@ -130,7 +131,7 @@ ChaumPedersenVerifier (pairing_t * pairing, element_t * g, element_t * h,
 
 void
 CDS3Prover (pairing_t * pairing, element_t * g, element_t * h, element_t * u,
-	    element_t * v, element_t * w, int vote, ChaumPedersenProof res[3])
+	    element_t * v, element_t * w, int vote, ChaumPedersenProof res[RANGE_OF_GRADING])
 {
   /* prove that either (g,h,u,v) is a DH tuple, or (g,h,u,v/g) is a DH or (g,h,u,v/g^2) is a DH tuple. Here vote is in {0,1,2} */
   element_t temp1, temp2, temp3, temp4, hash;
@@ -148,7 +149,7 @@ CDS3Prover (pairing_t * pairing, element_t * g, element_t * h, element_t * u,
   element_init_Zr (hash, *pairing);
   element_snprintf (str, 2048, "%B%B%B%B", *g, *h, *u, *v);
   element_from_hash (hash, str, 2048);
-  for (i = 0; i < 3; i++)	// 3 depends on the fact that in this demo the user can choose one out of 3 values for his selection 
+  for (i = 0; i < RANGE_OF_GRADING; i++)	// the user can choose one out of RANGE_OF_GRADING values for her/his selection 
     {
       mpz_set_si (V, i);
       element_set_mpz (temp3, V);
@@ -168,7 +169,7 @@ CDS3Prover (pairing_t * pairing, element_t * g, element_t * h, element_t * u,
 
 int
 CDS3Verifier (pairing_t * pairing, element_t * g, element_t * h,
-	      element_t * u, element_t * v, ChaumPedersenProof res[3])
+	      element_t * u, element_t * v, ChaumPedersenProof res[RANGE_OF_GRADING])
 {
   /* prove that either (g,h,u,v) is a DH tuple, or (g,h,u,v/g) is a DH or (g,h,u,v/g^2) is a DH tuple. Here vote is in {0,1,2} */
   char str[2048];
@@ -185,7 +186,7 @@ CDS3Verifier (pairing_t * pairing, element_t * g, element_t * h,
   element_set0 (temp);
   element_snprintf (str, 2048, "%B%B%B%B", *g, *h, *u, *v);
   element_from_hash (hash, str, 2048);
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < RANGE_OF_GRADING; i++)
     {
       mpz_set_si (V, i);
       element_set_mpz (temp3, V);

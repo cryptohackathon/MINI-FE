@@ -1,4 +1,5 @@
 #include "pairings.h"
+#include <gmp.h>
 const char *Param =
   "type a\nq 8780710799663312522437781984754049815806883199414208211028653399266475630880222957078625179422662221423155858769582317459277713367317481324925129998224791\nh 12016012264891146079388821366740534204802954401251311822919615131047207289359704531102844802183906537786776\nr 730750818665451621361119245571504901405976559617\nexp2 159\nexp1 107\nsign1 1\nsign0 1";
 #if PBC_OR_CIFER == 1
@@ -7,6 +8,7 @@ element_init_G1 (element_t g, pairing_t p)
 {
   ECP_BN254_generator (&(g[0].g1));
   mpz_init (g[0].p);
+  mpz_init (g[0].z);
   mpz_from_BIG_256_56 (g[0].p, (int64_t *) CURVE_Order_BN254);
   g[0].type = 0;
 }
@@ -16,6 +18,7 @@ element_init_G2 (element_t g, pairing_t p)
 {
   ECP2_BN254_generator (&(g[0].g2));
   mpz_init (g[0].p);
+  mpz_init (g[0].z);
   mpz_from_BIG_256_56 (g[0].p, (int64_t *) CURVE_Order_BN254);
   g[0].type = 1;
 }
@@ -25,6 +28,7 @@ element_init_GT (element_t g, pairing_t p)
 {
   element_init_G1 (g, p);
   element_init_G2 (g, p);
+  mpz_init (g[0].z);
   PAIR_BN254_ate (&(g[0].gT), &(g[0].g2), &(g[0].g1));
   PAIR_BN254_fexp (&(g[0].gT));
   mpz_init (g[0].p);
@@ -541,4 +545,92 @@ element_to_mpz (mpz_t z, element_t e)
 {
   mpz_set (z, e[0].z);
 }
+
+int _write_element_to_file(element_t g,FILE *f_g){
+unsigned long int n;
+n=sizeof(g[0].g1)+sizeof(g[0].g2)+sizeof(g[0].gT)+sizeof(g[0].x)+sizeof(g[0].type);
+if (fwrite((void*)&g[0],1,n,f_g)<=0) return -1;
+n=sizeof(g[0].z[0]._mp_alloc);
+if (fwrite((void*)&g[0].z[0]._mp_alloc,1,n,f_g)<=0) return -1;
+n=sizeof(g[0].z[0]._mp_size);
+if (fwrite((void*)&g[0].z[0]._mp_size,1,n,f_g)<=0) return -1;
+n=g[0].z[0]._mp_alloc*sizeof(mp_limb_t);
+if (fwrite((void*)&g[0].z[0]._mp_d[0],1,n,f_g)<=0) return -1;
+n=sizeof(g[0].p[0]._mp_alloc);
+if (fwrite((void*)&g[0].p[0]._mp_alloc,1,n,f_g)<=0) return -1;
+n=sizeof(g[0].p[0]._mp_size);
+if (fwrite((void*)&g[0].p[0]._mp_size,1,n,f_g)<=0) return -1;
+n=g[0].p[0]._mp_alloc*sizeof(mp_limb_t);
+if (fwrite((void*)&g[0].p[0]._mp_d[0],1,n,f_g)<=0) return -1;
+return 0;
+}
+
+int write_element_to_file(element_t g,char *filename){
+FILE *f_g;
+unsigned long int n;
+if ((f_g=fopen(filename,"w+"))==NULL) return -1;
+n=sizeof(g[0].g1)+sizeof(g[0].g2)+sizeof(g[0].gT)+sizeof(g[0].x)+sizeof(g[0].type);
+if (fwrite((void*)&g[0],1,n,f_g)<=0) return -1;
+n=sizeof(g[0].z[0]._mp_alloc);
+if (fwrite((void*)&g[0].z[0]._mp_alloc,1,n,f_g)<=0) return -1;
+n=sizeof(g[0].z[0]._mp_size);
+if (fwrite((void*)&g[0].z[0]._mp_size,1,n,f_g)<=0) return -1;
+n=g[0].z[0]._mp_alloc*sizeof(mp_limb_t);
+if (fwrite((void*)&g[0].z[0]._mp_d[0],1,n,f_g)<=0) return -1;
+n=sizeof(g[0].p[0]._mp_alloc);
+if (fwrite((void*)&g[0].p[0]._mp_alloc,1,n,f_g)<=0) return -1;
+n=sizeof(g[0].p[0]._mp_size);
+if (fwrite((void*)&g[0].p[0]._mp_size,1,n,f_g)<=0) return -1;
+n=g[0].p[0]._mp_alloc*sizeof(mp_limb_t);
+if (fwrite((void*)&g[0].p[0]._mp_d[0],1,n,f_g)<=0) return -1;
+if (fclose(f_g)!=0) return -1;
+return 0;
+}
+
+int _read_element_from_file(element_t g,FILE*f_g){
+unsigned long int n;
+n=sizeof(g[0].g1)+sizeof(g[0].g2)+sizeof(g[0].gT)+sizeof(g[0].x)+sizeof(g[0].type);
+if (fread((void*)&g[0],1,n,f_g)<=0) return -1;
+n=sizeof(g[0].z[0]._mp_alloc);
+if (fread((void*)&g[0].z[0]._mp_alloc,1,n,f_g)<=0) return -1;
+n=sizeof(g[0].z[0]._mp_size);
+if (fread((void*)&g[0].z[0]._mp_size,1,n,f_g)<=0) return -1;
+n=g[0].z[0]._mp_alloc*sizeof(mp_limb_t);
+g[0].z[0]._mp_d=malloc(n);
+if (fread((void*)&g[0].z[0]._mp_d[0],1,n,f_g)<=0) return -1;
+n=sizeof(g[0].p[0]._mp_alloc);
+if (fread((void*)&g[0].p[0]._mp_alloc,1,n,f_g)<=0) return -1;
+n=sizeof(g[0].p[0]._mp_size);
+if (fread((void*)&g[0].p[0]._mp_size,1,n,f_g)<=0) return -1;
+n=g[0].p[0]._mp_alloc*sizeof(mp_limb_t);
+g[0].p[0]._mp_d=malloc(n);
+if (fread((void*)&g[0].p[0]._mp_d[0],1,n,f_g)<=0) return -1;
+return 0;
+}
+int read_element_from_file(element_t g,char *filename){
+FILE *f_g;
+unsigned long int n;
+if ((f_g=fopen(filename,"r"))==NULL) return -1;
+//_read_element_from_file(g,f_g);
+
+n=sizeof(g[0].g1)+sizeof(g[0].g2)+sizeof(g[0].gT)+sizeof(g[0].x)+sizeof(g[0].type);
+if (fread((void*)&g[0],1,n,f_g)<=0) return -1;
+n=sizeof(g[0].z[0]._mp_alloc);
+if (fread((void*)&g[0].z[0]._mp_alloc,1,n,f_g)<=0) return -1;
+n=sizeof(g[0].z[0]._mp_size);
+if (fread((void*)&g[0].z[0]._mp_size,1,n,f_g)<=0) return -1;
+n=g[0].z[0]._mp_alloc*sizeof(mp_limb_t);
+g[0].z[0]._mp_d=malloc(n);
+if (fread((void*)&g[0].z[0]._mp_d[0],1,n,f_g)<=0) return -1;
+n=sizeof(g[0].p[0]._mp_alloc);
+if (fread((void*)&g[0].p[0]._mp_alloc,1,n,f_g)<=0) return -1;
+n=sizeof(g[0].p[0]._mp_size);
+if (fread((void*)&g[0].p[0]._mp_size,1,n,f_g)<=0) return -1;
+n=g[0].p[0]._mp_alloc*sizeof(mp_limb_t);
+g[0].p[0]._mp_d=malloc(n);
+if (fread((void*)&g[0].p[0]._mp_d[0],1,n,f_g)<=0) return -1;
+if (fclose(f_g)!=0) return -1;
+return 0;
+}
+
 #endif

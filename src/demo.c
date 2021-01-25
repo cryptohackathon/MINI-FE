@@ -30,13 +30,13 @@ void
 clearscreen (void)
 {
   int i;
-  return;
+ return;
   for (i = 0; i <= 100; i++)
     printf ("\n");
 }
 
 void
-InputSecretKey (int voter, element_t * secret_key)
+InputSecretKey (int voter, element_t * secret_key,pairing_t *pairing)
 {
   int pin;
 
@@ -60,7 +60,7 @@ InputSecretKey (int voter, element_t * secret_key)
       else
 	break;
     }
-  GenerateSecretKeyFromInt (secret_key, pin);
+  GenerateSecretKeyFromInt (secret_key, pin,pairing);
   clearscreen ();
 }
 
@@ -69,18 +69,13 @@ main (int argc, char **argv)
 {
   int i, election, N;
   pairing_t pairing;
-  element_t g;			//, h;
+  element_t g;		
   element_t temp, temp1, temp2, zero, res;
   pairing_pp_t pp;
-  //pbc_demo_pairing_init(pairing, argc, argv);
   pairing_init_set_str (pairing, Param);
-  element_init_G2 (g, pairing);
   element_init_G1 (temp, pairing);
   element_init_Zr (zero, pairing);
   element_init_Zr (res, pairing);
-  //generate public parameters
-  element_random (g);
-  //element_printf("public parameter g = %B\n", g);
 
   clearscreen ();
   while (1)
@@ -116,34 +111,29 @@ main (int argc, char **argv)
     element_t public_key[N], hash, Y[N];
     element_t secret_key[N];
     element_t CT[N];
-    ChaumPedersenProof Proofs[N][3];
+    ChaumPedersenProof Proofs[N][RANGE_OF_GRADING];
     long int vote[N];
     mpz_init (z);
-    element_init_G1 (hash, pairing);
-/* setup */
+	ComputeGenerator(&g,&pairing);
+#if PBC_OR_CIFER == 0
+	  element_printf ("g= %B\n\n",		  g);
+#else
+	  printf ("g=");
+	  ECP2_BN254_output (&g[0].g2);
+	  printf ("\n");
+#endif
     for (i = 1; i <= N; i++)
       {
-	element_init_G2 (public_key[i - 1], pairing);
 	element_init_G2 (Y[i - 1], pairing);
 	element_init_GT (temp1, pairing);
 	element_init_GT (temp2, pairing);
-	element_init_Zr (secret_key[i - 1], pairing);
 	element_set1 (Y[i - 1]);
 
+	InputSecretKey (i, &secret_key[i - 1],&pairing);
 
-	/*
-	   generate private key
-	 */
-	InputSecretKey (i, &secret_key[i - 1]);
-
-	/*
-	   element_printf("private key %d = %B\n\n", i, secret_key[i-1]);
-	 */
-	/* compute corresponding public key */
-	ComputePublicKey (&public_key[i - 1], &g, &secret_key[i - 1]);
+	ComputePublicKey (&public_key[i - 1], &g, &secret_key[i - 1],&pairing);
 
       }
-/* print all PKs */
     {
 #if PBC_OR_CIFER == 1
       char string[512];
@@ -161,31 +151,17 @@ main (int argc, char **argv)
 #endif
 	}
     }
-/* end setup */
-/*compute the Y_i's */
-    for (i = 1; i <= N; i++)
+    for (i = 1; i <= N; i++){
       ComputeY (&Y[i - 1], N, i, public_key, &pairing);
-    /*
-       for (i = 1; i <= N; i++)
-       {
-       element_set1 (temp);
+    }
 
-       for (j = 1; j <= N; j++)
-       {
-       if (j < i)
-       element_add (Y[i - 1], Y[i - 1], public_key[j - 1]);
-       else if (j > i)
-       element_sub (Y[i - 1], Y[i - 1], public_key[j - 1]);
-
-       }
-       }
-     */
-/*end of computation of the Y_i's */
     for (election = 1;; election++)
       {
 	sprintf (str, "%d\n", election);
 	printf ("\n\nEvaluating the Project of Candidate #%s\n\n", str);
-	element_from_hash (hash, str, 2);
+	
+	ComputeId(&hash,str,&pairing);
+	
 	pairing_pp_init (pp, hash, pairing);	/* we are going to do a lot of pairings with this value */
 	printf
 	  ("How do you want to judge the project's candidate? press %s1 for computing an Average Grade,%s 2 for Dead or Alive elections,%s 3 for Victory by unanimity,%s q to quit%s ",
@@ -205,18 +181,17 @@ main (int argc, char **argv)
 	  case '1':
 	    for (i = 1; i <= N; i++)
 	      {
-		InputSecretKey (i, &secret_key[i - 1]);
+		InputSecretKey (i, &secret_key[i - 1],&pairing);
 		printf
-		  ("Judge #%d, give a grade to the candidate #%d [0 for reject, 1 for borderline, 2 for accept]: %s",
-		   i, election, KBLACK);
+		  ("Judge #%d, give a grade to the candidate #%d [from 0 to %d]: %s",
+		   i, election, RANGE_OF_GRADING-1,KBLACK);
 		scanf ("%ld", &vote[i - 1]);
 		printf ("%s", KWHT);
 		clearscreen ();
-//element_printf("uuuu#%B\n",public_key[0]);
 		EncodeGrade (&g, &pp, &pairing, &hash, &secret_key[i - 1],
 			     &vote[i - 1], &Y[i - 1], &CT[i - 1],
 			     Proofs[i - 1]);
-//element_printf("uuuu#%B\n",public_key[0]);
+
 	      }
 	    printf
 	      ("%sEvaluating the result for candidate #%d...pls wait%s\n",
@@ -228,18 +203,19 @@ main (int argc, char **argv)
 		printf
 		  ("%sOne of the Judges cast invalid grade or used wrong secret PIN\nAborting...%s\n",
 		   KRED, KWHT);
-		break;
 	      }
+	    else{
 	    element_to_mpz (z, res);
 	    average = mpz_get_si (z);
 	    average /= N;
 	    printf ("%sAverage grade for candidate #%d = %s%f%s%s\n\n\n",
 		    KCYN, election, BLINK, average, NOBLINK, KWHT);
+	    }
 	    break;
 	  case '2':
 	    for (i = 1; i <= N; i++)
 	      {
-		InputSecretKey (i, &secret_key[i - 1]);
+		InputSecretKey (i, &secret_key[i - 1],&pairing);
 		printf ("Judge #%d, insert your decision [0 or 1]: ", i);
 		scanf ("%ld", &vote[i - 1]);
 		clearscreen ();
@@ -267,7 +243,7 @@ main (int argc, char **argv)
 	  case '3':
 	    for (i = 1; i <= N; i++)
 	      {
-		InputSecretKey (i, &secret_key[i - 1]);
+		InputSecretKey (i, &secret_key[i - 1],&pairing);
 		printf ("Judge #%d, insert your decision [0 or 1]: ", i);
 		scanf ("%ld", &vote[i - 1]);
 		clearscreen ();
