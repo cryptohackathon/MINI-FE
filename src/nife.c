@@ -1,4 +1,5 @@
 #include "nife.h"
+#include <unistd.h>
 void
 EncodeGrade (element_t * g, pairing_pp_t * pp, pairing_t * pairing,
 	     element_t * hash, element_t * secret_key, const long int *grade,
@@ -280,6 +281,7 @@ _write_element_to_file(Proof[i].e,f_ct);
 _write_element_to_file(Proof[i].z,f_ct);
 }
 if (fclose(f_ct)!=0) return -1;
+truncate(filename,2048*16); // we need this to make all ciphertexts of the same length - this may be needed when all ciphertexts are broacasted and the receiver receives the concatenation of all ciphertexts without knowing the corresponding length 
 return 0;
 }
 int write_ciphertext_to_file(element_t CT, char *filename){
@@ -287,6 +289,7 @@ FILE *f_ct;
 if ((f_ct=fopen(filename,"w+"))==NULL) return -1;
 _write_element_to_file(CT,f_ct);
 if (fclose(f_ct)!=0) return -1;
+truncate(filename,2048*16); // we need this to make all ciphertexts of the same length - this may be needed when all ciphertexts are broacasted and the receiver receives the concatenation of all ciphertexts without knowing the corresponding length 
 return 0;
 }
 int read_ciphertextwproofs_from_file(element_t CT,ChaumPedersenProof Proof[RANGE_OF_GRADING], char *filename){

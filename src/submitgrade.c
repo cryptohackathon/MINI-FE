@@ -162,7 +162,7 @@ if (argc==1) error(argv[0]);
 	  case '1':
 		printf
 		  ("Participant #%d, give a grade [from 0 to %d]: %s",
-		   P, RANGE_OF_GRADING-1,KBLACK);
+		   P+1, RANGE_OF_GRADING-1,KBLACK);
 		scanf ("%ld", &vote);
 		printf ("%s", KWHT);
 		EncodeGrade (&g, &pp, &pairing, &hash, &secret_key, &vote, &Y, &CT, Proofs);
@@ -170,14 +170,14 @@ if (argc==1) error(argv[0]);
     else write_ciphertextwproofs_to_file(CT,Proofs,argv[3]);
     break;
 	  case '2':
-		printf ("Participant #%d, insert your decision [0 or 1]: ", P);
+		printf ("Participant #%d, insert your decision [0 or 1]: ", P+1);
 		scanf ("%ld", &vote);
 		EncodeDeadOrAlive (&g, &pp, &pairing, &hash, &secret_key, &vote, &Y, &CT);
 	       	if (argv[3]==NULL) error(argv[3]);
     else write_ciphertext_to_file(CT,argv[3]);
 	    break;
 	  case '3':
-		printf ("Participant #%d, insert your decision [0 or 1]: ", P);
+		printf ("Participant #%d, insert your decision [0 or 1]: ", P+1);
 		scanf ("%ld", &vote);
 		EncodeUnanimity (&g, &pp, &pairing, &hash, &secret_key, &vote, &Y, &CT);
     if (argv[3]==NULL) error(argv[3]);
